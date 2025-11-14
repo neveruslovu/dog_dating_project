@@ -1,0 +1,124 @@
+{% load menu_tags %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DogDating - Знакомства для собак{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .container {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+        
+        .sidebar {
+            background-color: #f4f4f4;
+            padding: 20px;
+            width: 250px;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        /* Стили для меню */
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .menu-item {
+            margin-bottom: 5px;
+        }
+        
+        .menu-link {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+            background-color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .menu-link:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .menu-link.active-link {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .submenu {
+            list-style: none;
+            padding-left: 20px;
+            margin-top: 5px;
+        }
+        
+        .arrow {
+            float: right;
+            font-size: 12px;
+        }
+        
+        .footer-menu {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            margin-top: auto;
+        }
+        
+        .footer-menu .menu-link {
+            color: white;
+            background-color: transparent;
+        }
+        
+        .footer-menu .menu-link:hover {
+            background-color: #555;
+        }
+        
+        .footer-menu .menu-link.active-link {
+            background-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🐕 DogDating - Сервис знакомств для собак</h1>
+    </div>
+    
+    <div class="container">
+        <div class="sidebar">
+            <h3>Главное меню</h3>
+            {% draw_menu 'main_menu' %}
+            
+            <h3 style="margin-top: 30px;">Услуги</h3>
+            {% draw_menu 'services_menu' %}
+        </div>
+        
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    
+    <div class="footer-menu">
+        <h3>Дополнительная информация</h3>
+        {% draw_menu 'footer_menu' %}
+    </div>
+</body>
+</html>

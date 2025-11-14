@@ -1,0 +1,7 @@
+{% load menu_tags %}
+
+<ul class="menu">
+    {% for item_data in menu_items %}
+        {% include "menu/menu_item.html" with item_data=item_data %}
+    {% endfor %}
+</ul>
