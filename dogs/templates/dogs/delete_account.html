@@ -1,0 +1,57 @@
+{% extends "dogs/base.html" %}
+
+{% block title %}{{ title }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{{ title }}</h1>
+    <p class="page-subtitle">Это действие нельзя отменить</p>
+</div>
+
+<div class="card" style="max-width: 600px;">
+    <div class="card-header">
+        <h3 class="card-title" style="color: #dc3545;">⚠️ Удаление аккаунта</h3>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-danger">
+            <h4 style="margin-bottom: 1rem;">Внимание!</h4>
+            <p style="margin-bottom: 0.5rem;">Удаление аккаунта приведет к:</p>
+            <ul>
+                <li>Полному удалению вашего профиля</li>
+                <li>Удалению всех ваших собак</li>
+                <li>Удалению всех сообщений и мэтчей</li>
+                <li>Невозможности восстановления данных</li>
+            </ul>
+            <p><strong>Это действие необратимо!</strong></p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                {{ form.confirm_deletion }}
+                {% if form.confirm_deletion.errors %}
+                    {% for error in form.confirm_deletion.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}" class="form-label">Подтвердите пароль</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                    {% for error in form.password.errors %}
+                        <div class="text-danger">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                <button type="submit" class="btn btn-danger">Да, удалить аккаунт</button>
+                <a href="{% url 'dogs:profile' %}" class="btn btn-secondary">Отмена</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 {% extends "dogs/base.html" %}
+{% load dogs_tags %}
 
 {% block title %}{{ dog.name }} - {{ block.super }}{% endblock %}
 
@@ -7,7 +8,7 @@
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
         <div>
             <h1 class="page-title">{{ dog.name }}</h1>
-            <p class="page-subtitle">{{ dog.breed }} • {{ dog.age }} {% if dog.age == 1 %}год{% elif dog.age < 5 %}года{% else %}лет{% endif %} • {% if dog.gender == "M" %}♂️ Мальчик{% else %}♀️ Девочка{% endif %}</p>
+            <p class="page-subtitle">{{ dog.breed }} • {{ dog.age }} {{ dog.age|get_years_string }} • {% if dog.gender == "M" %}♂️ Мальчик{% else %}♀️ Девочка{% endif %}</p>
         </div>
         
         {% if user.is_authenticated and can_edit %}

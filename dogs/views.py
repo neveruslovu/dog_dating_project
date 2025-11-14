@@ -443,12 +443,14 @@ def handler404(request, exception):
 
 def handler500(request):
     """Custom 500 error handler"""
+    from django.conf import settings
+
     return render(
         request,
         "dogs/error_500.html",
         {
             "request": request,
-            "debug": DEBUG if "DEBUG" in locals() else True,
+            "debug": settings.DEBUG,
         },
         status=500,
     )

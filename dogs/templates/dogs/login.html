@@ -1,171 +1,152 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход - DogDating</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-</head>
-<body>
+{% extends "dogs/base.html" %}
+
+{% block title %}Вход - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container" style="max-width: 500px; margin: 0 auto; padding: 2rem 1rem;">
+    <!-- Page Header -->
+    <div class="page-header text-center mb-4">
+        <h1 class="page-title">🐕 С возвращением</h1>
+        <p class="page-subtitle">Войдите в свой аккаунт</p>
+    </div>
+
+    <!-- Login Form -->
+    <div class="card">
+        <div class="card-body">
+            <!-- Show form errors -->
+            {% if form.errors %}
+                <div class="alert alert-danger mb-3">
+                    <h5>Ошибки в форме:</h5>
+                    <ul class="mb-0">
+                        {% for field, errors in form.errors.items %}
+                            <li><strong>{{ field }}:</strong> {{ errors|join:", " }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <form method="post" id="loginForm" class="auth-form">
+                {% csrf_token %}
+
+                <!-- Username field -->
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}" class="form-label">
+                        <i class="bi bi-person-fill"></i> {{ form.username.label }}
+                    </label>
+                    <input type="text"
+                           name="{{ form.username.name }}"
+                           id="{{ form.username.id_for_label }}"
+                           class="form-control {{ form.username.errors|yesno:'is-invalid,' }}"
+                           value="{{ form.username.value|default_if_none:'' }}"
+                           placeholder="Имя пользователя или email"
+                           required
+                           autofocus>
+                    {% if form.username.errors %}
+                        {% for error in form.username.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- Password field -->
+                <div class="form-group">
+                    <label for="{{ form.password.id_for_label }}" class="form-label">
+                        <i class="bi bi-lock-fill"></i> {{ form.password.label }}
+                    </label>
+                    <div class="password-container">
+                        <input type="password"
+                               name="{{ form.password.name }}"
+                               id="{{ form.password.id_for_label }}"
+                               class="form-control {{ form.password.errors|yesno:'is-invalid,' }}"
+                               placeholder="••••••••"
+                               required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('{{ form.password.id_for_label }}')">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+
+                <!-- Remember me checkbox -->
+                <div class="form-check mt-3">
+                    <input type="checkbox"
+                           name="{{ form.remember_me.name }}"
+                           id="{{ form.remember_me.id_for_label }}"
+                           class="form-check-input"
+                           {% if form.remember_me.value %}checked{% endif %}>
+                    <label for="{{ form.remember_me.id_for_label }}" class="form-check-label">
+                        {{ form.remember_me.label }}
+                    </label>
+                </div>
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary" id="submitBtn" style="width: 100%; margin-top: 1.5rem;">
+                    <span class="btn-text">Войти</span>
+                </button>
+            </form>
+
+            <!-- Password reset link (placeholder) -->
+            <div class="text-center mt-3">
+                <a href="#" onclick="alert('Функция восстановления пароля будет реализована позже.')">Забыли пароль?</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register link -->
+    <div class="text-center mt-4">
+        <p class="text-muted">Нет аккаунта? <a href="{% url 'dogs:register' %}" class="text-primary">Зарегистрируйтесь</a></p>
+    </div>
+</div>
+
+<!-- Minimal styles for login form -->
 <style>
-    .auth-container {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
+    .password-container {
+        position: relative;
     }
 
-    .auth-card {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-        width: 100%;
-        max-width: 420px;
-        overflow: hidden;
-        animation: slideUp 0.4s ease;
-    }
-
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-
-    .auth-header {
-        background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
-        color: white;
-        padding: 2rem;
-        text-align: center;
-    }
-
-    .auth-header h1 {
-        font-size: 2rem;
-        font-weight: 700;
-        margin: 0 0 0.5rem 0;
-    }
-
-    .auth-header p {
-        margin: 0;
-        opacity: 0.9;
+    .password-toggle {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: #6b7280;
+        cursor: pointer;
         font-size: 1rem;
+        transition: color 0.2s ease;
     }
 
-    .auth-body {
-        padding: 2rem;
-    }
-
-    .auth-form .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .auth-form .form-label {
-        display: block;
-        font-weight: 600;
+    .password-toggle:hover {
         color: #374151;
-        margin-bottom: 0.5rem;
-        font-size: 0.9rem;
     }
 
-    .auth-form .form-control {
-        width: 100%;
-        padding: 0.875rem 1rem;
-        border: 2px solid #e5e7eb;
-        border-radius: 12px;
-        font-size: 1rem;
-        transition: all 0.2s ease;
-        background: #ffffff;
-    }
-
-    .auth-form .form-control:focus {
-        outline: none;
-        border-color: #667eea;
-        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    .auth-form {
+        max-width: 400px;
+        margin: 0 auto;
     }
 
     .form-check {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        margin-top: 1rem;
+        gap: 0.75rem;
     }
 
     .form-check-input {
         width: 1rem;
         height: 1rem;
+        margin: 0;
     }
 
     .form-check-label {
         font-size: 0.9rem;
         color: #6b7280;
         cursor: pointer;
-    }
-
-    .text-center {
-        text-align: center;
-        color: #6b7280;
-        font-size: 0.9rem;
-    }
-
-    .text-center a {
-        color: #667eea;
-        text-decoration: none;
-        font-weight: 500;
-    }
-
-    .text-center a:hover {
-        color: #5a67d8;
-    }
-
-    .auth-btn {
-        width: 100%;
-        padding: 1rem;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-top: 1rem;
-    }
-
-    .auth-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-    }
-
-    .auth-btn:active {
-        transform: translateY(0);
-    }
-
-    .auth-footer {
-        text-align: center;
-        padding: 1.5rem 2rem;
-        background: #f9fafb;
-        border-top: 1px solid #e5e7eb;
-    }
-
-    .auth-footer a {
-        color: #667eea;
-        text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s ease;
-    }
-
-    .auth-footer a:hover {
-        color: #5a67d8;
-    }
-
-    .error-message {
-        color: #ef4444;
-        font-size: 0.9rem;
-        margin-top: 0.5rem;
-        display: block;
+        margin: 0;
     }
 
     /* Loading animation */
@@ -193,118 +174,23 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
-
-    /* Mobile responsive */
-    @media (max-width: 480px) {
-        .auth-container {
-            padding: 1rem;
-        }
-
-        .auth-card {
-            max-width: 100%;
-        }
-
-        .auth-header {
-            padding: 1.5rem;
-        }
-
-        .auth-body {
-            padding: 1.5rem 1.5rem;
-        }
-
-        .auth-footer {
-            padding: 1rem 1.5rem;
-        }
-    }
 </style>
 
-<div class="auth-container">
-    <div class="auth-card">
-        <div class="auth-header">
-            <h1>С возвращением! 🐕</h1>
-            <p>Войдите в свой аккаунт</p>
-        </div>
-
-        <div class="auth-body">
-            <form method="post" id="loginForm" class="auth-form">
-                {% csrf_token %}
-
-                <!-- Username field -->
-                <div class="form-group">
-                    <label for="{{ form.username.id_for_label }}" class="form-label">
-                        <i class="bi bi-person-fill"></i> {{ form.username.label }}
-                    </label>
-                    <input type="text"
-                           name="{{ form.username.name }}"
-                           id="{{ form.username.id_for_label }}"
-                           class="form-control {{ form.username.errors|yesno:'is-invalid,' }}"
-                           value="{{ form.username.value|default_if_none:'' }}"
-                           placeholder="Имя пользователя или email"
-                           required
-                           autofocus>
-                    {% if form.username.errors %}
-                        {% for error in form.username.errors %}
-                            <span class="error-message">{{ error }}</span>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-
-                <!-- Password field -->
-                <div class="form-group">
-                    <label for="{{ form.password.id_for_label }}" class="form-label">
-                        <i class="bi bi-lock-fill"></i> {{ form.password.label }}
-                    </label>
-                    <input type="password"
-                           name="{{ form.password.name }}"
-                           id="{{ form.password.id_for_label }}"
-                           class="form-control {{ form.password.errors|yesno:'is-invalid,' }}"
-                           placeholder="••••••••"
-                           required>
-                    {% if form.password.errors %}
-                        {% for error in form.password.errors %}
-                            <span class="error-message">{{ error }}</span>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-
-                <!-- Remember me checkbox -->
-                <div class="form-check">
-                    <input type="checkbox"
-                           name="{{ form.remember_me.name }}"
-                           id="{{ form.remember_me.id_for_label }}"
-                           class="form-check-input"
-                           {% if form.remember_me.value %}checked{% endif %}>
-                    <label for="{{ form.remember_me.id_for_label }}" class="form-check-label">
-                        {{ form.remember_me.label }}
-                    </label>
-                </div>
-
-                <!-- Submit button -->
-                <button type="submit" class="auth-btn" id="submitBtn">
-                    <span class="btn-text">Войти</span>
-                </button>
-
-                {% if form.non_field_errors %}
-                    <div class="error-message" style="margin-top: 1rem; text-align: center;">
-                        {% for error in form.non_field_errors %}
-                            {{ error }}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </form>
-
-            <div class="text-center" style="margin-top: 1.5rem;">
-                <a href="#" onclick="alert('Функция восстановления пароля будет реализована позже. Используйте тестовые данные для входа.');">Забыли пароль?</a>
-            </div>
-        </div>
-
-        <div class="auth-footer">
-            <p>Нет аккаунта? <a href="{% url 'dogs:register' %}">Зарегистрируйтесь</a></p>
-        </div>
-    </div>
-</div>
-
 <script>
+// Password visibility toggle
+function togglePassword(inputId) {
+    const input = document.getElementById(inputId);
+    const button = input.parentElement.querySelector('.password-toggle i');
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        button.className = 'bi bi-eye-slash';
+    } else {
+        input.type = 'password';
+        button.className = 'bi bi-eye';
+    }
+}
+
 // Form validation feedback
 document.getElementById('loginForm').addEventListener('submit', function(e) {
     const submitBtn = document.getElementById('submitBtn');
@@ -320,39 +206,13 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
 
     if (!username || !password) {
         e.preventDefault();
-        // Show toast instead of alert for better UX
-        showToast('Заполните все поля', 'error');
+        if (typeof showToast !== 'undefined') {
+            showToast('Заполните все поля', 'error');
+        }
         submitBtn.classList.remove('loading');
         btnText.textContent = 'Войти';
         return;
     }
 });
-
-// Toast notification function (should be available from base template)
-function showToast(message, type = 'success') {
-    const container = document.getElementById('toast-container') || document.body;
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-
-    const icon = type === 'success' ? '✅' :
-                type === 'error' ? '❌' :
-                type === 'info' ? 'ℹ️' : '✅';
-
-    toast.innerHTML = `
-        <span>${icon}</span>
-        <span>${message}</span>
-        <button onclick="this.parentElement.remove()" style="border: none; background: none; cursor: pointer; font-size: 1.2rem;">&times;</button>
-    `;
-
-    container.appendChild(toast);
-
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-        if (toast.parentElement) {
-            toast.remove();
-        }
-    }, 5000);
-}
 </script>
-</body>
-</html>
+{% endblock %}

@@ -1,5 +1,6 @@
 {% extends "dogs/base.html" %}
 {% load static %}
+{% load dogs_tags %}
 
 {% block title %}{{ page_title }} - DogDating{% endblock %}
 
@@ -43,13 +44,13 @@
                             <div class="dog-info" style="padding: 15px;">
                                 <div class="dog-name" style="font-weight: 600; color: #333; margin-bottom: 5px;">{{ dog.name }}</div>
                                 <div class="dog-details" style="color: #666; font-size: 0.9rem; margin-bottom: 10px;">
-                                    {{ dog.breed }}, {{ dog.age }} лет
+                                    {% if dog.gender == "M" %}♂ {% else %}♀ {% endif %}{{ dog.breed }}, {{ dog.age }} {{ dog.age|get_years_string }}
                                 </div>
                                 <div class="d-flex gap-2">
-                                    <a href="{% url 'dogs:dog_detail' pk=dog.pk %}" class="btn btn-secondary" style="flex: 1; font-size: 0.9rem;">
+                                    <a href="{% url 'dogs:dog_detail' dog.pk %}" class="btn btn-secondary" style="flex: 1; font-size: 0.9rem;">
                                         <i class="bi bi-eye"></i> Просмотр
                                     </a>
-                                    <a href="{% url 'dogs:dog_update' pk=dog.pk %}" class="btn btn-primary" style="flex: 1; font-size: 0.9rem;">
+                                    <a href="{% url 'dogs:dog_update' dog.pk %}" class="btn btn-primary" style="flex: 1; font-size: 0.9rem;">
                                         <i class="bi bi-pencil"></i> Редактировать
                                     </a>
                                 </div>
@@ -130,6 +131,16 @@
                             💕
                         </div>
                     </div>
+
+                    <div class="stat-item" style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="color: #666; font-size: 0.9rem;">Избранное</div>
+                            <div style="font-weight: 600; color: #333; font-size: 1.2rem;">{{ total_favorites }}</div>
+                        </div>
+                        <div style="background: #f59e0b; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                            ❤️
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -146,6 +157,12 @@
                     <a href="{% url 'dogs:dog_list' %}" class="btn btn-secondary" style="width: 100%; text-align: left;">
                         <i class="bi bi-search"></i> Искать собак
                     </a>
+                    <a href="{% url 'dogs:matches' %}" class="btn btn-success" style="width: 100%; text-align: left;">
+                        <i class="bi bi-heart"></i> Мои мэтчи ({{ total_matches }})
+                    </a>
+                    <a href="{% url 'dogs:favorites' %}" class="btn btn-warning" style="width: 100%; text-align: left;">
+                        <i class="bi bi-star"></i> Избранное ({{ total_favorites }})
+                    </a>
                 </div>
             </div>
         </div>
@@ -154,17 +171,6 @@
 
 </div>
 
-<!-- Welcome Message for New Users -->
-{% if not user_dogs %}
-<div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none;">
-    <div class="card-body text-center">
-        <h3 style="color: white; margin-bottom: 1rem;">Добро пожаловать в DogDating! 🐕</h3>
-        <p style="margin-bottom: 2rem; opacity: 0.9;">Здесь вы найдете идеального компаньона для вашей собаки. Добавьте профиль своего питомца и начните знакомства!</p>
-        <a href="{% url 'dogs:dog_create' %}" class="btn" style="background: rgba(255,255,255,0.2); color: white; border: 2px solid rgba(255,255,255,0.3);">
-            Добавить собаку
-        </a>
-    </div>
-</div>
-{% endif %}
+
 
 {% endblock %}

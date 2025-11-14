@@ -540,6 +540,11 @@
 
         <!-- Main content -->
         <main class="content">
+    {% else %}
+    <!-- Non-authenticated layout - register/login pages -->
+    <div style="max-width: 1200px; margin: 0 auto; padding: 2rem;">
+    {% endif %}
+
             {% comment %} Include Django messages {% endcomment %}
             {% if messages %}
                 {% for message in messages %}
@@ -550,8 +555,9 @@
                 {% endfor %}
             {% endif %}
 
-            {% block content %}
-            {% endblock %}
+            {% block content %}{% endblock %}
+
+    {% if user.is_authenticated %}
         </main>
     </div>
 
@@ -567,13 +573,6 @@
             <p>&copy; 2025 DogDating. Все права защищены.</p>
         </div>
     </footer>
-    {% else %}
-    <!-- Landing page for non-authenticated users -->
-    <div style="display: block;">
-        <!-- Messages display -->
-        {% include "dogs/components/messages.html" %}
-        
-    </div>
     {% endif %}
 
     <!-- Toast container for notifications -->
@@ -582,6 +581,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        // CSRF token handling
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
         // Toast notification system
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container') || document.body;
@@ -622,6 +637,59 @@
                 sidebar.classList.toggle('active');
             }
         }
+
+        // Favorite toggle functionality for favorite buttons
+        function toggleFavorite(dogId, button = null) {
+            if (!button) button = event.target.closest('.favorite-btn');
+            if (!button) return;
+
+            const originalHTML = button.innerHTML;
+            button.innerHTML = '<div class="spinner" style="display: inline-block; width: 20px; height: 20px; border: 2px solid #ffffff; border-top: 2px solid transparent; border-radius: 50%; animation: spin 1s linear infinite;"></div> Обновление...';
+            button.disabled = true;
+
+            fetch(`/dogs/${dogId}/favorite/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.is_favorite) {
+                    button.innerHTML = '<i class="bi bi-heart-fill"></i> В избранном';
+                    button.className = 'btn btn-success favorite-btn';
+                } else {
+                    button.innerHTML = '<i class="bi bi-heart"></i> Добавить в избранное';
+                    button.className = 'btn btn-primary favorite-btn';
+                }
+                if (data.message) {
+                    showToast(data.message, data.is_favorite ? 'success' : 'info');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                button.innerHTML = originalHTML;
+                showToast('Произошла ошибка', 'error');
+            })
+            .finally(() => {
+                button.disabled = false;
+            });
+        }
+
+        // Auto-bind favorite buttons on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                if (!btn.dataset.listenerAdded) {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const dogId = this.dataset.dogId;
+                        toggleFavorite(dogId, this);
+                    });
+                    btn.dataset.listenerAdded = true;
+                }
+            });
+        });
     </script>
 </body>
 </html>

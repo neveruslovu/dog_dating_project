@@ -1,0 +1,23 @@
+{% extends "dogs/base.html" %}
+
+{% block title %}{{ page_title }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">{{ page_title }}</h1>
+    <p class="page-subtitle">Полезные советы по уходу за собакой и знакомствам</p>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h4>Полезные советы</h4>
+        <ul>
+            <li>Регулярно гуляйте с собакой</li>
+            <li>Обеспечьте сбалансированное питание</li>
+            <li>Посещайте ветеринара для профилактики</li>
+            <li>Давайте собаке достаточную физическую нагрузку</li>
+        </ul>
+        <p>Больше советов скоро появится!</p>
+    </div>
+</div>
+{% endblock %}

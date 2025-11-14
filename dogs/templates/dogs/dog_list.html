@@ -1,4 +1,5 @@
 {% extends "dogs/base.html" %}
+{% load dogs_tags %}
 
 {% block title %}Список собак - {{ block.super }}{% endblock %}
 
@@ -84,7 +85,7 @@
                 <div class="card-body">
                     <h3 class="card-title">{{ dog.name }}</h3>
                     <div style="margin-bottom: 1rem;">
-                        <strong>{{ dog.breed }}</strong> • {{ dog.age }} {% if dog.age == 1 %}год{% elif dog.age < 5 %}года{% else %}лет{% endif %}
+                        <strong>{{ dog.breed }}</strong> • {{ dog.age }} {{ dog.age|get_years_string }}
                         {% if dog.gender == "M" %}• ♂️{% else %}• ♀️{% endif %}
                     </div>
                     
