@@ -1,5 +1,7 @@
 # DogDating - Django Dog Dating Platform
-<img width="2551" height="1291" alt="image" src="https://github.com/user-attachments/assets/11b696c7-67e0-47d4-ab0c-82cc4f49f8cb" />
+<img width="2559" height="1334" alt="image" src="https://github.com/user-attachments/assets/4ac3d399-539c-4ab4-8181-d9a2f306a625" />
+<img width="2555" height="1333" alt="image" src="https://github.com/user-attachments/assets/b0e514d7-3b66-4b81-bfe8-6114ff7aecce" />
+
 
 
 ![DogDating Logo](https://img.shields.io/badge/DogDating-🐕-blue?style=for-the-badge)
