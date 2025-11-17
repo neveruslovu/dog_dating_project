@@ -33,7 +33,7 @@ class Command(BaseCommand):
             menu=main_menu,
             parent=dogs,
             title="Найти пару",
-            named_url="dogs:matches",
+            named_url="dogs:dog_list",
             order=2,
         )
 
@@ -67,25 +67,6 @@ class Command(BaseCommand):
 
         MenuItem.objects.create(
             menu=main_menu, parent=info, title="Советы", named_url="dogs:tips", order=3
-        )
-
-        # Меню услуг - ИСПРАВЛЯЕМ URL НА NAMED_URL
-        services_menu, _ = Menu.objects.get_or_create(
-            name="services_menu", defaults={"description": "Меню услуг"}
-        )
-
-        MenuItem.objects.create(
-            menu=services_menu,
-            title="Премиум подписка",
-            named_url="dogs:premium",
-            order=1,
-        )
-
-        MenuItem.objects.create(
-            menu=services_menu,
-            title="Организация встреч",
-            named_url="dogs:meetings",
-            order=2,
         )
 
         # Футер меню - ИСПРАВЛЯЕМ URL НА NAMED_URL

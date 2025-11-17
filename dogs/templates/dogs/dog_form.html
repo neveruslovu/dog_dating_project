@@ -3,6 +3,44 @@
 {% block title %}{{ title }} - {{ block.super }}{% endblock %}
 
 {% block content %}
+<style>
+    /* Ensure all form fields have dark theme styling */
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="file"],
+    select,
+    textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid rgba(59,130,246,0.2);
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        background: rgba(51,65,85,0.4) !important;
+        color: #e0e0e0 !important;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    input[type="file"]:focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        background: rgba(51,65,85,0.6) !important;
+    }
+
+    select {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2360a5fa' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 0.5rem center;
+        background-repeat: no-repeat;
+        background-size: 1.5em 1.5em;
+        padding-right: 2.5rem;
+    }
+</style>
 <div class="page-header">
     <h1 class="page-title">{{ title }}</h1>
     <p class="page-subtitle">{% if dog %}Обновите информацию о {{ dog.name }}{% else %}Создайте профиль для новой собаки{% endif %}</p>
@@ -21,14 +59,14 @@
                     
                     <!-- Basic Information -->
                     <div style="margin-bottom: 2rem;">
-                        <h4 style="margin-bottom: 1rem; color: #667eea;">Основная информация</h4>
+                        <h4 style="margin-bottom: 1rem; color: #60a5fa;">Основная информация</h4>
                         
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
                             <div class="form-group">
                                 <label class="form-label" for="{{ form.name.id_for_label }}">{{ form.name.label }}</label>
                                 {{ form.name }}
                                 {% if form.name.errors %}
-                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                    <div style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
                                         {{ form.name.errors.0 }}
                                     </div>
                                 {% endif %}
@@ -38,7 +76,7 @@
                                 <label class="form-label" for="{{ form.breed.id_for_label }}">{{ form.breed.label }}</label>
                                 {{ form.breed }}
                                 {% if form.breed.errors %}
-                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                    <div style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
                                         {{ form.breed.errors.0 }}
                                     </div>
                                 {% endif %}
@@ -50,7 +88,7 @@
                                 <label class="form-label" for="{{ form.age.id_for_label }}">{{ form.age.label }}</label>
                                 {{ form.age }}
                                 {% if form.age.errors %}
-                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                    <div style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
                                         {{ form.age.errors.0 }}
                                     </div>
                                 {% endif %}
@@ -60,7 +98,7 @@
                                 <label class="form-label" for="{{ form.gender.id_for_label }}">{{ form.gender.label }}</label>
                                 {{ form.gender }}
                                 {% if form.gender.errors %}
-                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                    <div style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
                                         {{ form.gender.errors.0 }}
                                     </div>
                                 {% endif %}
@@ -72,7 +110,7 @@
                                 <label class="form-label" for="{{ form.size.id_for_label }}">{{ form.size.label }}</label>
                                 {{ form.size }}
                                 {% if form.size.errors %}
-                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                    <div style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
                                         {{ form.size.errors.0 }}
                                     </div>
                                 {% endif %}
@@ -82,7 +120,7 @@
                                 <label class="form-label" for="{{ form.looking_for.id_for_label }}">{{ form.looking_for.label }}</label>
                                 {{ form.looking_for }}
                                 {% if form.looking_for.errors %}
-                                    <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                    <div style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
                                         {{ form.looking_for.errors.0 }}
                                     </div>
                                 {% endif %}
@@ -92,18 +130,17 @@
                     
                     <!-- Character -->
                     <div style="margin-bottom: 2rem;">
-                        <h4 style="margin-bottom: 1rem; color: #667eea;">Характер</h4>
+                        <h4 style="margin-bottom: 1rem; color: #60a5fa;">Характер</h4>
                         
                         <div class="form-group">
-                            <label class="form-label" for="{{ form.temperament.id_for_label }}">{{ form.temperament.label }}</label>
                             {{ form.temperament }}
                             {% if form.temperament.help_text %}
-                                <small style="color: #666; font-size: 0.875rem; margin-top: 0.25rem; display: block;">
+                                <small style="color: #cbd5e1; font-size: 0.875rem; margin-top: 0.25rem; display: block;">
                                     {{ form.temperament.help_text }}
                                 </small>
                             {% endif %}
                             {% if form.temperament.errors %}
-                                <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                <div style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
                                     {{ form.temperament.errors.0 }}
                                 </div>
                             {% endif %}
@@ -112,18 +149,17 @@
                     
                     <!-- Description -->
                     <div style="margin-bottom: 2rem;">
-                        <h4 style="margin-bottom: 1rem; color: #667eea;">Описание</h4>
+                        <h4 style="margin-bottom: 1rem; color: #60a5fa;">Описание</h4>
                         
                         <div class="form-group">
-                            <label class="form-label" for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
                             {{ form.description }}
                             {% if form.description.help_text %}
-                                <small style="color: #666; font-size: 0.875rem; margin-top: 0.25rem; display: block;">
+                                <small style="color: #cbd5e1; font-size: 0.875rem; margin-top: 0.25rem; display: block;">
                                     {{ form.description.help_text }}
                                 </small>
                             {% endif %}
                             {% if form.description.errors %}
-                                <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                <div style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
                                     {{ form.description.errors.0 }}
                                 </div>
                             {% endif %}
@@ -132,18 +168,17 @@
                     
                     <!-- Photo -->
                     <div style="margin-bottom: 2rem;">
-                        <h4 style="margin-bottom: 1rem; color: #667eea;">Фото</h4>
+                        <h4 style="margin-bottom: 1rem; color: #60a5fa;">Фото</h4>
                         
                         <div class="form-group">
-                            <label class="form-label" for="{{ form.photo.id_for_label }}">{{ form.photo.label }}</label>
                             {{ form.photo }}
                             {% if form.photo.help_text %}
-                                <small style="color: #666; font-size: 0.875rem; margin-top: 0.25rem; display: block;">
+                                <small style="color: #cbd5e1; font-size: 0.875rem; margin-top: 0.25rem; display: block;">
                                     {{ form.photo.help_text }}
                                 </small>
                             {% endif %}
                             {% if form.photo.errors %}
-                                <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.25rem;">
+                                <div style="color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem;">
                                     {{ form.photo.errors.0 }}
                                 </div>
                             {% endif %}

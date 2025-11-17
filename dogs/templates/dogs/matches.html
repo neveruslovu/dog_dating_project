@@ -13,23 +13,23 @@
         {% if matches %}
             <div style="display: grid; gap: 1rem;">
                 {% for match in matches %}
-                <div style="border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem;">
+                <div style="border: 1px solid rgba(59,130,246,0.15); border-radius: 12px; padding: 1rem; background: rgba(51,65,85,0.4);">
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <div>
-                            <h4 style="margin: 0;">{{ match.dog_from.name }} → {{ match.dog_to.name }}</h4>
-                            <p style="margin: 0.5rem 0; color: #666;">
+                            <h4 style="margin: 0; color: #93c5fd;">{{ match.dog_from.name }} → {{ match.dog_to.name }}</h4>
+                            <p style="margin: 0.5rem 0; color: #cbd5e1;">
                                 {{ match.get_status_display }}
                             </p>
-                            <small style="color: #999;">{{ match.created_at|date:"d.m.Y H:i" }}</small>
+                            <small style="color: #64748b;">{{ match.created_at|date:"d.m.Y H:i" }}</small>
                         </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         {% else %}
-            <div style="text-align: center; padding: 3rem; color: #666;">
+            <div style="text-align: center; padding: 3rem; color: #cbd5e1;">
                 <span style="font-size: 4rem; display: block; margin-bottom: 1rem;">💕</span>
-                <h4>У вас пока нет мэтчей</h4>
+                <h4 style="color: #93c5fd;">У вас пока нет мэтчей</h4>
                 <p>Добавьте больше собак и начинайте знакомства!</p>
             </div>
         {% endif %}

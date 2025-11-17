@@ -3,6 +3,20 @@
 {% block title %}{{ page_title }} - {{ block.super }}{% endblock %}
 
 {% block content %}
+<style>
+    .remove-favorite-btn:hover {
+        background: rgba(59,130,246,0.25) !important;
+        border-color: rgba(59,130,246,0.5) !important;
+        color: #93c5fd !important;
+        transform: none;
+    }
+
+    .remove-favorite-btn:active {
+        background: rgba(59,130,246,0.35) !important;
+        border-color: #3b82f6 !important;
+        transform: none;
+    }
+</style>
 <div class="page-header">
     <h1 class="page-title">{{ page_title }}</h1>
     <p class="page-subtitle">Собаки, которые вам понравились</p>
@@ -13,24 +27,28 @@
         {% if favorites %}
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
                 {% for favorite in favorites %}
-                <div style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden;">
+                <div style="border: 1px solid rgba(59,130,246,0.15); border-radius: 12px; overflow: hidden; background: rgba(51,65,85,0.6);">
                     <div style="height: 150px; overflow: hidden;">
                         {% if favorite.dog.photo %}
                             <img src="{{ favorite.dog.photo.url }}" alt="{{ favorite.dog.name }}" 
                                  style="width: 100%; height: 100%; object-fit: cover;">
                         {% else %}
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: #f0f0f0;">
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(45deg, rgba(59,130,246,0.2), rgba(37,99,235,0.1));">
                                 <span style="font-size: 2rem; opacity: 0.6;">🐕</span>
                             </div>
                         {% endif %}
                     </div>
                     <div style="padding: 1rem;">
-                        <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem;">{{ favorite.dog.name }}</h4>
-                        <p style="margin: 0 0 0.5rem 0; color: #666; font-size: 0.9rem;">{{ favorite.dog.breed }} • {{ favorite.dog.age }} лет</p>
+                        <h4 style="margin: 0 0 0.5rem 0; font-size: 1.1rem; color: #93c5fd;">{{ favorite.dog.name }}</h4>
+                        <p style="margin: 0 0 0.5rem 0; color: #cbd5e1; font-size: 0.9rem;">{{ favorite.dog.breed }} • {{ favorite.dog.age }} лет</p>
                         <div style="display: flex; gap: 0.5rem;">
-                            <a href="{% url 'dogs:dog_detail' favorite.dog.pk %}" class="btn btn-sm btn-primary">Подробнее</a>
-                            <button class="btn btn-sm btn-outline" onclick="toggleFavorite({{ favorite.dog.pk }})">
-                                ❤️ Убрать из избранного
+                            <a href="{% url 'dogs:dog_detail' favorite.dog.pk %}" class="btn btn-primary" style="flex: 1; text-align: center;">
+                                Подробнее
+                            </a>
+                            <button class="remove-favorite-btn" 
+                                    onclick="removeFavorite(this, {{ favorite.dog.pk }})"
+                                    style="width: 44px; height: 44px; padding: 0; background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); color: #60a5fa; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0;">
+                                <i class="bi bi-heart-fill"></i>
                             </button>
                         </div>
                     </div>
@@ -38,9 +56,9 @@
                 {% endfor %}
             </div>
         {% else %}
-            <div style="text-align: center; padding: 3rem; color: #666;">
+            <div style="text-align: center; padding: 3rem; color: #cbd5e1;">
                 <span style="font-size: 4rem; display: block; margin-bottom: 1rem;">❤️</span>
-                <h4>У вас нет избранных собак</h4>
+                <h4 style="color: #93c5fd;">У вас нет избранных собак</h4>
                 <p>Просмотрите профили собак и добавьте понравившихся в избранное!</p>
                 <a href="{% url 'dogs:dog_list' %}" class="btn btn-primary">Найти собак</a>
             </div>

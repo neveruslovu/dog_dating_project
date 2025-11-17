@@ -27,28 +27,28 @@
                     <img src="{{ user_profile.avatar.url }}" alt="{{ user.username }}" 
                          style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-bottom: 1rem;">
                 {% else %}
-                    <div style="width: 120px; height: 120px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+                    <div style="width: 120px; height: 120px; border-radius: 50%; background: rgba(59,130,246,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
                         <span style="font-size: 3rem; opacity: 0.6;">👤</span>
                     </div>
                 {% endif %}
                 
-                <h3 style="margin-bottom: 0.5rem;">{{ user.username }}</h3>
-                <p style="color: #666; margin-bottom: 1rem;">{{ user.email }}</p>
+                <h3 style="margin-bottom: 0.5rem; color: #93c5fd;">{{ user.username }}</h3>
+                <p style="color: #cbd5e1; margin-bottom: 1rem;">{{ user.email }}</p>
                 
                 {% if user_profile.bio %}
-                    <p style="color: #666; line-height: 1.6;">{{ user_profile.bio }}</p>
+                    <p style="color: #cbd5e1; line-height: 1.6;">{{ user_profile.bio }}</p>
                 {% else %}
-                    <p style="color: #999; font-style: italic;">О себе не указано</p>
+                    <p style="color: #64748b; font-style: italic;">О себе не указано</p>
                 {% endif %}
                 
                 {% if user_profile.location %}
-                    <p style="color: #666; margin-top: 1rem;">
+                    <p style="color: #cbd5e1; margin-top: 1rem;">
                         📍 {{ user_profile.location }}
                     </p>
                 {% endif %}
                 
                 {% if user_profile.phone %}
-                    <p style="color: #666;">
+                    <p style="color: #cbd5e1;">
                         📞 {{ user_profile.phone }}
                     </p>
                 {% endif %}
@@ -66,22 +66,22 @@
                         🔒 Изменить пароль
                     </a>
                     <a href="{% url 'dogs:favorites' %}" class="btn btn-secondary" style="width: 100%; text-align: center; text-decoration: none;">
-                        ❤️ Избранное ({{ total_favorites }})
+                        ❤️ Избранное
                     </a>
                     <a href="{% url 'dogs:matches' %}" class="btn btn-secondary" style="width: 100%; text-align: center; text-decoration: none;">
-                        💕 Мэтчи ({{ total_matches }})
+                        💕 Мэтчи
                     </a>
                 </div>
             </div>
         </div>
         
         <!-- Danger Zone -->
-        <div class="card" style="margin-top: 1.5rem; border: 1px solid #dc3545;">
-            <div class="card-header" style="background: #fff5f5;">
-                <h3 class="card-title" style="color: #dc3545;">⚠️ Опасная зона</h3>
+        <div class="card" style="margin-top: 1.5rem; border: 1px solid rgba(239,68,68,0.3);">
+            <div class="card-header" style="background: rgba(239,68,68,0.15);">
+                <h3 class="card-title" style="color: #ef4444;">⚠️ Опасная зона</h3>
             </div>
             <div class="card-body">
-                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">
+                <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 1rem;">
                     Эти действия необратимы. Пожалуйста, будьте осторожны.
                 </p>
                 <a href="{% url 'dogs:delete_account' %}" class="btn btn-danger" style="width: 100%; text-align: center; text-decoration: none;">

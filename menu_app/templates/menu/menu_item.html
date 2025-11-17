@@ -1,15 +1,16 @@
 <li class="menu-item {% if item_data.is_active %}active{% endif %} {% if item_data.children %}collapsible{% endif %}">
     <div class="menu-link-wrapper">
-        <a href="{{ item_data.url }}" 
-           class="menu-link {% if item_data.is_active %}active-link{% endif %}">
-            {{ item_data.item.title }}
-        </a>
         {% if item_data.children %}
-            <button class="expand-toggle {% if not item_data.is_expanded %}collapsed{% endif %}" 
-                    data-target="submenu-{{ item_data.item.id }}">
-                <span class="arrow">{% if item_data.is_expanded %}▼{% else %}►{% endif %}</span>
-            </button>
+            <span class="menu-link {% if item_data.is_active %}active-link{% endif %} header-nav-top-link">
+                {{ item_data.item.title }}
+            </span>
+        {% else %}
+            <a href="{{ item_data.url }}" 
+               class="menu-link {% if item_data.is_active %}active-link{% endif %} header-nav-link">
+                {{ item_data.item.title }}
+            </a>
         {% endif %}
+
     </div>
     
     {% if item_data.children %}

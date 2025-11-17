@@ -11,9 +11,15 @@
 </head>
 <body>
 <style>
+    body {
+        background: #0f172a;
+        color: #e0e0e0;
+        font-family: 'Inter', sans-serif;
+    }
+
     /* Hero Section */
     .hero {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 50%, #2d1b5e 100%);
         color: white;
         padding: 100px 0;
         text-align: center;
@@ -74,30 +80,30 @@
     }
 
     .btn-primary {
-        background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+        background: linear-gradient(45deg, #3b82f6, #2563eb);
         color: white;
     }
 
     .btn-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
     }
 
     .btn-secondary {
-        background: rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.15);
         color: white;
         border: 2px solid rgba(255,255,255,0.3);
     }
 
     .btn-secondary:hover {
-        background: rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.25);
         border-color: rgba(255,255,255,0.5);
     }
 
     /* Features Section */
     .features {
         padding: 80px 0;
-        background: #f8f9fa;
+        background: #1a1f3a;
     }
 
     .container {
@@ -109,7 +115,7 @@
     .section-title {
         text-align: center;
         font-size: 2.5rem;
-        color: #333;
+        color: #ffffff;
         margin-bottom: 60px;
         font-weight: 700;
     }
@@ -121,40 +127,43 @@
     }
 
     .feature-card {
-        background: white;
+        background: rgba(51,65,85,0.8);
         padding: 40px 30px;
         border-radius: 15px;
         text-align: center;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         transition: all 0.3s ease;
+        border: 1px solid rgba(59,130,246,0.15);
+        backdrop-filter: blur(10px);
     }
 
     .feature-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        box-shadow: 0 12px 35px rgba(59,130,246,0.2);
+        border-color: rgba(59,130,246,0.3);
     }
 
     .feature-icon {
         font-size: 3rem;
         margin-bottom: 20px;
-        color: #667eea;
+        color: #60a5fa;
     }
 
     .feature-card h3 {
         font-size: 1.5rem;
         margin-bottom: 15px;
-        color: #333;
+        color: #93c5fd;
     }
 
     .feature-card p {
-        color: #666;
+        color: #cbd5e1;
         line-height: 1.6;
     }
 
     /* Dogs Preview */
     .dogs-preview {
         padding: 80px 0;
-        background: white;
+        background: #0f172a;
     }
 
     .dogs-grid {
@@ -165,21 +174,23 @@
     }
 
     .dog-card {
-        background: white;
+        background: rgba(51,65,85,0.8);
         border-radius: 15px;
         overflow: hidden;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         transition: all 0.3s ease;
+        border: 1px solid rgba(59,130,246,0.15);
     }
 
     .dog-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        box-shadow: 0 12px 35px rgba(59,130,246,0.2);
+        border-color: rgba(59,130,246,0.3);
     }
 
     .dog-image {
         height: 200px;
-        background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+        background: linear-gradient(45deg, rgba(59,130,246,0.2), rgba(37,99,235,0.1));
         display: flex;
         align-items: center;
         justify-content: center;
@@ -194,7 +205,7 @@
 
     .dog-placeholder {
         font-size: 4rem;
-        color: #ccc;
+        color: rgba(93,184,255,0.4);
         opacity: 0.6;
     }
 
@@ -205,18 +216,18 @@
     .dog-name {
         font-size: 1.3rem;
         font-weight: 600;
-        color: #333;
+        color: #93c5fd;
         margin-bottom: 5px;
     }
 
     .dog-details {
-        color: #666;
+        color: #cbd5e1;
         font-size: 0.9rem;
         margin-bottom: 10px;
     }
 
     .dog-description {
-        color: #777;
+        color: #cbd5e1;
         font-size: 0.9rem;
         line-height: 1.4;
         display: -webkit-box;
@@ -228,21 +239,23 @@
     /* Testimonials */
     .testimonials {
         padding: 80px 0;
-        background: #f8f9fa;
+        background: #0f172a;
     }
 
     .testimonial-card {
-        background: white;
+        background: rgba(51,65,85,0.8);
         padding: 30px;
         border-radius: 15px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         text-align: center;
         margin: 20px 0;
+        border: 1px solid rgba(59,130,246,0.15);
+        backdrop-filter: blur(10px);
     }
 
     .testimonial-content {
         font-size: 1.1rem;
-        color: #555;
+        color: #cbd5e1;
         font-style: italic;
         margin-bottom: 20px;
         position: relative;
@@ -252,19 +265,19 @@
     .testimonial-content::after {
         content: '"';
         font-size: 2rem;
-        color: #667eea;
+        color: #60a5fa;
         font-family: Georgia, serif;
     }
 
     .testimonial-author {
         font-weight: 600;
-        color: #333;
+        color: #93c5fd;
     }
 
     /* CTA Section */
     .cta-section {
         padding: 80px 0;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
         color: white;
         text-align: center;
     }
@@ -283,9 +296,9 @@
     /* Stats */
     .stats {
         padding: 60px 0;
-        background: white;
-        border-top: 1px solid #eee;
-        border-bottom: 1px solid #eee;
+        background: linear-gradient(135deg, #1a1f3a 0%, #0f172a 100%);
+        border-top: 1px solid rgba(59,130,246,0.15);
+        border-bottom: 1px solid rgba(59,130,246,0.15);
     }
 
     .stats-grid {
@@ -298,12 +311,16 @@
     .stat-number {
         font-size: 2.5rem;
         font-weight: 700;
-        color: #667eea;
+        color: #60a5fa;
         margin-bottom: 10px;
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
 
     .stat-label {
-        color: #666;
+        color: #cbd5e1;
         font-size: 0.9rem;
         text-transform: uppercase;
         letter-spacing: 1px;

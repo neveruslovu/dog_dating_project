@@ -5,38 +5,38 @@
 {% block content %}
 <h1>Добро пожаловать в DogDating! 🐕</h1>
 
-<div style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 30px; border-radius: 10px; margin-top: 20px;">
-    <h2 style="color: #667eea;">Найдите идеальную пару для вашего питомца</h2>
-    <p style="font-size: 1.1rem; margin: 20px 0;">DogDating - это уникальный сервис знакомств для собак, где вы можете:</p>
+<div style="background: linear-gradient(135deg, rgba(59,130,246,0.1) 0%, rgba(37,99,235,0.08) 100%); padding: 30px; border-radius: 16px; margin-top: 20px; border: 1px solid rgba(59,130,246,0.2);">
+    <h2 style="color: #60a5fa;">Найдите идеальную пару для вашего питомца</h2>
+    <p style="font-size: 1.1rem; margin: 20px 0; color: #cbd5e1;">DogDating - это уникальный сервис знакомств для собак, где вы можете:</p>
     
     <ul style="list-style: none; padding: 0; margin: 20px 0;">
-        <li style="padding: 15px; margin: 10px 0; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            ✅ <strong>Зарегистрировать профиль</strong> вашей собаки
+        <li style="padding: 15px; margin: 10px 0; background: rgba(51,65,85,0.6); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 1px solid rgba(59,130,246,0.15); color: #cbd5e1;">
+            ✅ <strong style="color: #93c5fd;">Зарегистрировать профиль</strong> вашей собаки
         </li>
-        <li style="padding: 15px; margin: 10px 0; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            ✅ <strong>Найти подходящую пару</strong> по породе, возрасту и характеру
+        <li style="padding: 15px; margin: 10px 0; background: rgba(51,65,85,0.6); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 1px solid rgba(59,130,246,0.15); color: #cbd5e1;">
+            ✅ <strong style="color: #93c5fd;">Найти подходящую пару</strong> по породе, возрасту и характеру
         </li>
-        <li style="padding: 15px; margin: 10px 0; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            ✅ <strong>Организовать встречи</strong> и прогулки
+        <li style="padding: 15px; margin: 10px 0; background: rgba(51,65,85,0.6); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 1px solid rgba(59,130,246,0.15); color: #cbd5e1;">
+            ✅ <strong style="color: #93c5fd;">Организовать встречи</strong> и прогулки
         </li>
-        <li style="padding: 15px; margin: 10px 0; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-            ✅ <strong>Участвовать в мероприятиях</strong> для собак
+        <li style="padding: 15px; margin: 10px 0; background: rgba(51,65,85,0.6); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); border: 1px solid rgba(59,130,246,0.15); color: #cbd5e1;">
+            ✅ <strong style="color: #93c5fd;">Участвовать в мероприятиях</strong> для собак
         </li>
     </ul>
     
     <div style="margin-top: 30px; text-align: center;">
-        <a href="{% url 'dogs:register' %}" style="display: inline-block; padding: 15px 40px; margin: 10px; text-decoration: none; border-radius: 8px; font-size: 18px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transition: transform 0.3s;">
+        <a href="{% url 'dogs:register' %}" style="display: inline-block; padding: 15px 40px; margin: 10px; text-decoration: none; border-radius: 12px; font-size: 18px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); transition: transform 0.3s;">
             Зарегистрировать собаку
         </a>
-        <a href="{% url 'dogs:dog_list' %}" style="display: inline-block; padding: 15px 40px; margin: 10px; text-decoration: none; border-radius: 8px; font-size: 18px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4); transition: transform 0.3s;">
+        <a href="{% url 'dogs:dog_list' %}" style="display: inline-block; padding: 15px 40px; margin: 10px; text-decoration: none; border-radius: 12px; font-size: 18px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); transition: transform 0.3s;">
             Смотреть анкеты
         </a>
     </div>
 </div>
 
-<div style="margin-top: 30px; padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ffc107;">
-    <h3 style="color: #856404;">📢 Важная информация</h3>
-    <p>Это демонстрационный проект, показывающий реализацию древовидного меню на Django.</p>
-    <p><strong>Попробуйте:</strong> Кликайте по пунктам меню слева - активные пункты и их родители автоматически разворачиваются!</p>
+<div style="margin-top: 30px; padding: 20px; background: rgba(59,130,246,0.15); border-radius: 12px; border-left: 4px solid #3b82f6; color: #93c5fd;">
+    <h3 style="color: #60a5fa;">📢 Важная информация</h3>
+    <p style="color: #cbd5e1;">Это демонстрационный проект, показывающий реализацию древовидного меню на Django.</p>
+    <p style="color: #cbd5e1;"><strong>Попробуйте:</strong> Кликайте по пунктам меню слева - активные пункты и их родители автоматически разворачиваются!</p>
 </div>
 {% endblock %}

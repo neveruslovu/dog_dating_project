@@ -39,8 +39,6 @@ urlpatterns = [
     path("events/", views.events, name="events"),
     path("tips/", views.tips, name="tips"),
     # Дополнительные страницы для меню - FIX 404 ERRORS
-    path("premium/", views_new.premium, name="premium"),
-    path("meetings/", views_new.meetings, name="meetings"),
     path("contacts/", views_new.contacts, name="contacts"),
     path("privacy/", views_new.privacy, name="privacy"),
 ]
