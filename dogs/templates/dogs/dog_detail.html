@@ -4,6 +4,24 @@
 {% block title %}{{ dog.name }} - {{ block.super }}{% endblock %}
 
 {% block content %}
+<style>
+    .favorite-btn {
+        transition: all 0.2s ease;
+    }
+
+    .favorite-btn:hover {
+        background: rgba(59,130,246,0.25) !important;
+        border-color: rgba(59,130,246,0.5) !important;
+        color: #93c5fd !important;
+        transform: none;
+    }
+
+    .favorite-btn:active {
+        background: rgba(59,130,246,0.35) !important;
+        border-color: #3b82f6 !important;
+        transform: none;
+    }
+</style>
 <div class="page-header">
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
         <div>
@@ -98,17 +116,15 @@
         {% if user.is_authenticated and not can_edit %}
             <div class="card" style="margin-bottom: 1.5rem;">
                 <div class="card-body">
-                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
-                        <button class="btn btn-success favorite-btn" 
-                                data-dog-id="{{ dog.pk }}"
-                                style="flex: 1;">
-                            {% if is_favorite %}
-                                <i class="bi bi-heart-fill"></i> В избранном
-                            {% else %}
-                                <i class="bi bi-heart"></i> Добавить в избранное
-                            {% endif %}
-                        </button>
-                    </div>
+                    <button class="favorite-btn" 
+                            data-dog-id="{{ dog.pk }}"
+                            style="width: 100%; padding: 0.75rem 1rem; background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3); color: #60a5fa; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem; font-size: 1rem; margin-bottom: 1rem;">
+                        {% if is_favorite %}
+                            <i class="bi bi-heart-fill"></i> В избранном
+                        {% else %}
+                            <i class="bi bi-heart"></i> Добавить в избранное
+                        {% endif %}
+                    </button>
                     
                     <a href="{% url 'dogs:dog_list' %}" class="btn btn-secondary" style="width: 100%; text-align: center; text-decoration: none;">
                         <i class="bi bi-arrow-left"></i> Назад к списку
@@ -163,53 +179,71 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Favorite button functionality
-    const favoriteBtn = document.querySelector('.favorite-btn');
-    if (favoriteBtn) {
-        favoriteBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const dogId = this.dataset.dogId;
-            const button = this;
-            
-            button.innerHTML = '<div class="spinner"></div> Добавление...';
-            button.disabled = true;
-            
-            fetch(`/dogs/${dogId}/favorite/`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRFToken': getCookie('csrftoken'),
-                    'Content-Type': 'application/json',
-                },
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.is_favorite) {
-                    button.innerHTML = '<i class="bi bi-heart-fill"></i> В избранном';
-                    button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                    showToast(data.message, 'success');
-                } else {
-                    button.innerHTML = '<i class="bi bi-heart"></i> Добавить в избранное';
-                    button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                    button.innerHTML = '<i class="bi bi-heart"></i> Добавить в избранное';
-                    showToast(data.message, 'info');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                showToast('Произошла ошибка', 'error');
-                // Restore button state
-                if (button.innerHTML.includes('В избранном')) {
-                    button.innerHTML = '<i class="bi bi-heart-fill"></i> В избранном';
-                } else {
-                    button.innerHTML = '<i class="bi bi-heart"></i> Добавить в избранное';
-                }
-            })
-            .finally(() => {
-                button.disabled = false;
-            });
-        });
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
     }
+    return cookieValue;
+}
+
+function attachFavoriteListener() {
+    const favoriteBtn = document.querySelector('.favorite-btn');
+    if (!favoriteBtn) return;
+    
+    // Убираем старые listeners
+    const newBtn = favoriteBtn.cloneNode(true);
+    favoriteBtn.parentNode.replaceChild(newBtn, favoriteBtn);
+    
+    // Добавляем новый listener
+    newBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const dogId = this.dataset.dogId;
+        const button = this;
+        
+        const originalContent = button.innerHTML;
+        button.innerHTML = '<div class="spinner"></div> Обновление...';
+        button.disabled = true;
+        
+        fetch(`/dogs/${dogId}/favorite/`, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.is_favorite) {
+                button.innerHTML = '<i class="bi bi-heart-fill"></i> В избранном';
+                showToast(data.message, 'success');
+            } else {
+                button.innerHTML = '<i class="bi bi-heart"></i> Добавить в избранное';
+                showToast(data.message, 'info');
+            }
+            button.disabled = false;
+            attachFavoriteListener();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showToast('Произошла ошибка', 'error');
+            button.innerHTML = originalContent;
+            button.disabled = false;
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    attachFavoriteListener();
 });
 </script>
 {% endblock %}

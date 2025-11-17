@@ -44,13 +44,17 @@
 
     /* Header */
     .landing-header {
-        background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+        background: var(--bg-secondary);
         padding: 1rem 2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
         box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         transition: background-color 0.3s ease;
+        border-bottom: 1px solid rgba(59,130,246,0.15);
+        position: sticky;
+        top: 0;
+        z-index: 100;
     }
 
     .landing-header .logo {
@@ -63,32 +67,63 @@
         gap: 10px;
     }
 
-    .theme-toggle {
-        background: rgba(255,255,255,0.1);
-        border: 1px solid rgba(255,255,255,0.3);
-        color: var(--text-primary);
-        padding: 0.5rem 1rem;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.3s ease;
+    .header-content {
         display: flex;
         align-items: center;
-        gap: 6px;
-        font-size: 0.9rem;
+        gap: 20px;
     }
 
-    [data-theme="light"] .theme-toggle {
-        background: rgba(0,0,0,0.05);
-        border: 1px solid rgba(0,0,0,0.1);
+    .header-stats {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-item-value {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #60a5fa;
+    }
+
+    .stat-item-label {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 4px;
+    }
+
+    .theme-toggle {
+        background: rgba(59,130,246,0.15);
+        border: 1px solid rgba(59,130,246,0.3);
+        color: var(--text-primary);
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
+        font-weight: 500;
     }
 
     .theme-toggle:hover {
-        background: rgba(255,255,255,0.2);
+        background: rgba(59,130,246,0.25);
+        border-color: rgba(59,130,246,0.5);
+        transform: translateY(-2px);
     }
 
-    [data-theme="light"] .theme-toggle:hover {
-        background: rgba(0,0,0,0.1);
+    .theme-toggle i {
+        font-size: 1.1rem;
     }
+
+    /* Dropdown Menu Styles */
+
 
     /* Hero Section */
     .hero {
@@ -168,14 +203,24 @@
     }
 
     .btn-secondary {
-        background: rgba(255,255,255,0.15);
+        background: linear-gradient(45deg, #10b981, #059669);
         color: white;
-        border: 2px solid rgba(255,255,255,0.3);
+        border: none;
     }
 
     .btn-secondary:hover {
-        background: rgba(255,255,255,0.25);
-        border-color: rgba(255,255,255,0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+    }
+
+    [data-theme="light"] .btn-secondary {
+        background: linear-gradient(45deg, #10b981, #059669);
+        color: white;
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+    }
+
+    [data-theme="light"] .btn-secondary:hover {
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
     }
 
     /* Features Section */
@@ -405,13 +450,56 @@
     }
 
     /* Responsive */
-    @media (max-width: 768px) {
+    @media (max-width: 1024px) {
         .hero h1 {
             font-size: 2.5rem;
         }
 
         .hero p {
+            font-size: 1rem;
+        }
+
+        .header-stats {
+            gap: 20px;
+        }
+
+        .stat-item-value {
             font-size: 1.1rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .landing-header {
+            flex-direction: column;
+            gap: 15px;
+            padding: 1rem;
+        }
+
+        .header-content {
+            width: 100%;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .header-stats {
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item-value {
+            font-size: 1rem;
+        }
+
+        .stat-item-label {
+            font-size: 0.7rem;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+        }
+
+        .hero p {
+            font-size: 0.95rem;
         }
 
         .hero-buttons {
@@ -429,90 +517,111 @@
         }
 
         .dogs-grid {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .landing-header {
+            padding: 1rem 0.5rem;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+        }
+
+        .header-stats {
+            gap: 10px;
+        }
+
+        .header-content {
+            gap: 8px;
+        }
+
+        .theme-toggle {
+            padding: 0.5rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        .theme-toggle span {
+            display: none;
+        }
+
+        .theme-toggle i {
+            font-size: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 1.5rem;
+        }
+
+        .feature-card {
+            padding: 20px 15px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
         }
     }
 </style>
 
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-content">
-        <h1>🐕 Найди идеального друга для своей собаки</h1>
-        <p>Присоединяйтесь к сообществу любителей собак. Находите друзей, партнеров и даже любовь для ваших питомцев!</p>
-        <div class="hero-buttons">
-            <a href="{% url 'dogs:register' %}" class="btn-primary">Создать аккаунт</a>
-            <a href="#features" class="btn-secondary">Узнать больше</a>
-        </div>
+<!-- Main Header -->
+<header class="landing-header">
+    <div class="logo">
+        <i class="bi bi-heart-fill" style="color: #ef4444;"></i> DogDating
     </div>
-</section>
-
-<!-- Stats Section -->
-<section class="stats">
-    <div class="container">
-        <div class="stats-grid">
-            <div>
-                <div class="stat-number">{{ featured_dogs|length|add:"42" }}</div>
-                <div class="stat-label">Зарегистрированных собак</div>
+    
+    <div class="header-content">
+        <div class="header-stats">
+            <div class="stat-item">
+                <div class="stat-item-value">{{ featured_dogs|length|add:"42" }}</div>
+                <div class="stat-item-label">Собак</div>
             </div>
-            <div>
-                <div class="stat-number">{{ featured_dogs|length|add:"15" }}</div>
-                <div class="stat-label">Успешных знакомств</div>
+            <div class="stat-item">
+                <div class="stat-item-value">{{ featured_dogs|length|add:"15" }}</div>
+                <div class="stat-item-label">Знакомств</div>
             </div>
-            <div>
-                <div class="stat-number">{{ featured_dogs|length|add:"98" }}</div>
-                <div class="stat-label">Довольных владельцев</div>
-            </div>
-            <div>
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Поддержка пользователей</div>
+            <div class="stat-item">
+                <div class="stat-item-value">{{ featured_dogs|length|add:"98" }}</div>
+                <div class="stat-item-label">Пользователей</div>
             </div>
         </div>
+        
+        <button id="theme-toggle" class="theme-toggle">
+            <i class="bi bi-sun-fill"></i>
+            <span class="theme-label">Светлая</span>
+        </button>
     </div>
-</section>
+</header>
 
-<!-- Features Section -->
-<section id="features" class="features">
-    <div class="container">
-        <h2 class="section-title">Почему выбирают нас?</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">❤️</div>
-                <h3>Безопасные знакомства</h3>
-                <p>Все профили проверяются, а пользователи проходят верификацию. Ваша собака и ваш покой - наши приоритеты.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h3>Умный подбор</h3>
-                <p>Наша система анализирует предпочтения, характеры и привычки собак, чтобы найти наиболее подходящих друзей.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🌟</div>
-                <h3>Легкое общение</h3>
-                <p>Удобный чат, уведомления о новых сообщениях и лайках. Никаких сложностей в общении между владельцами.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📱</div>
-                <h3>Мобильная версия</h3>
-                <p>Доступно на всех устройствах. Просматривайте профили и общайтесь в любое время прямо с телефона.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3>Конфиденциальность</h3>
-                <p>Ваши личные данные надежно защищены. Мы уважаем вашу приватность и не передаем информацию третьим лицам.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎉</div>
-                <h3>Мероприятия</h3>
-                <p>Организуем регулярные мероприятия для собак и их владельцев: прогулки, выставки, тренинги и праздники.</p>
+<!-- Main Content -->
+<div style="padding: 40px; max-width: 1200px; margin: 0 auto;">
+    <!-- Hero Section -->
+    <section style="margin-bottom: 80px;">
+        <div style="max-width: 900px;">
+            <h1 style="font-size: 3.5rem; font-weight: 700; color: var(--text-highlight); margin-bottom: 20px; line-height: 1.2;">
+                🐕 Найди идеального друга для своей собаки
+            </h1>
+            <p style="font-size: 1.3rem; color: var(--text-secondary); margin-bottom: 30px; line-height: 1.6; max-width: 700px;">
+                Присоединяйтесь к сообществу любителей собак. Находите друзей, партнеров и даже любовь для ваших питомцев прямо сейчас!
+            </p>
+            <div class="hero-buttons">
+                <a href="{% url 'dogs:register' %}" class="btn-primary">Создать аккаунт</a>
+                <a href="{% url 'dogs:login' %}" class="btn-secondary">Войти в аккаунт</a>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Dogs Preview Section -->
-<section class="dogs-preview">
-    <div class="container">
-        <h2 class="section-title">Знакомьтесь с нашими участниками</h2>
+    <!-- Featured Dogs Section -->
+    <section id="dogs-section" style="margin-bottom: 80px;">
+        <div style="margin-bottom: 40px;">
+            <h2 style="font-size: 2rem; color: var(--text-highlight); font-weight: 700; margin-bottom: 10px;">Звёзды нашего сообщества</h2>
+            <p style="color: var(--text-secondary); font-size: 1.1rem;">Познакомьтесь с чудесными собачками, ищущими друзей</p>
+        </div>
         <div class="dogs-grid">
             {% for dog in featured_dogs %}
             <div class="dog-card">
@@ -532,86 +641,179 @@
             {% endfor %}
         </div>
         <div style="text-align: center; margin-top: 40px;">
-            <a href="{% url 'dogs:register' %}" class="btn-primary">Присоединиться к сообществу</a>
+            <a href="{% url 'dogs:register' %}" class="btn-primary">Посмотреть всех собак</a>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Testimonials Section -->
-<section class="testimonials">
-    <div class="container">
-        <h2 class="section-title">Отзывы владельцев</h2>
+    <!-- Why Choose Us Section -->
+    <section style="margin-bottom: 80px;">
+        <div style="margin-bottom: 40px;">
+            <h2 style="font-size: 2rem; color: var(--text-highlight); font-weight: 700; margin-bottom: 10px;">Почему выбирают DogDating</h2>
+            <p style="color: var(--text-secondary); font-size: 1.1rem;">Всё, что нужно для счастья ваших питомцев</p>
+        </div>
         <div class="features-grid">
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    Благодаря DogDating наша Собака нашла себе лучшую подругу! Они не разлей вода в прогулках по парку.
-                </div>
-                <div class="testimonial-author">Анна и её Лабрадор Рекс</div>
+            <div class="feature-card">
+                <div class="feature-icon">❤️</div>
+                <h3>Безопасные знакомства</h3>
+                <p>Все профили проверяются, а пользователи проходят верификацию.</p>
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    Наконец-то я могу быть спокойна за прогулки Мурки. Теперь у неё есть друзья, с которыми она может играть.
-                </div>
-                <div class="testimonial-author">Мария и её Хаски Шэдоу</div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Умный подбор</h3>
+                <p>Анализируем характеры и привычки для идеального подбора.</p>
             </div>
-            <div class="testimonial-card">
-                <div class="testimonial-content">
-                    Отличная платформа! Легко найти собак подходящего размера и темперамента. Очень довольны результатом.
-                </div>
-                <div class="testimonial-author">Дмитрий и его Джек Рассел Терьер Чарли</div>
+            <div class="feature-card">
+                <div class="feature-icon">🌟</div>
+                <h3>Легкое общение</h3>
+                <p>Удобный чат и уведомления о новых сообщениях.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Мобильная версия</h3>
+                <p>Доступно на всех устройствах в любое время.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Конфиденциальность</h3>
+                <p>Ваши личные данные надежно защищены.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎉</div>
+                <h3>Мероприятия</h3>
+                <p>Регулярные встречи, прогулки и праздники для собак.</p>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Final CTA Section -->
-<section class="cta-section">
-    <div class="container">
-        <h2>Готовы найти друзей для своей собаки?</h2>
-        <p>Присоединяйтесь к тысячам владельцев, которые уже нашли идеальных компаньонов для своих питомцев!</p>
+    <!-- Testimonials -->
+    <section style="margin-bottom: 80px;">
+        <div style="margin-bottom: 40px;">
+            <h2 style="font-size: 2rem; color: var(--text-highlight); font-weight: 700; margin-bottom: 10px;">Отзывы наших пользователей</h2>
+            <p style="color: var(--text-secondary); font-size: 1.1rem;">Что говорят владельцы наших питомцев</p>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    Благодаря DogDating наша Рокси нашла себе лучшую подругу! Они не разлей вода в прогулках по парку.
+                </div>
+                <div class="testimonial-author">Анна 🐕 Рокси (Лабрадор)</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    Наконец-то я могу быть спокойна за прогулки Мурки. Теперь у неё есть друзья для игр и приключений.
+                </div>
+                <div class="testimonial-author">Мария 🐕 Мурка (Хаски)</div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    Отличная платформа! Легко найти собак подходящего размера и темперамента. Очень довольны!
+                </div>
+                <div class="testimonial-author">Дмитрий 🐕 Чарли (Джек Рассел Терьер)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); padding: 60px 40px; border-radius: 20px; text-align: center; color: white; margin-bottom: 40px;">
+        <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 700;">Готовы начать?</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 30px; opacity: 0.9; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Присоединяйтесь к тысячам владельцев, которые уже нашли идеальных компаньонов для своих питомцев!
+        </p>
         <div class="hero-buttons">
-            <a href="{% url 'dogs:register' %}" class="btn-primary">Начать прямо сейчас</a>
+            <a href="{% url 'dogs:register' %}" class="btn-primary">Создать аккаунт сейчас</a>
             <a href="{% url 'dogs:login' %}" class="btn-secondary">Уже есть аккаунт</a>
         </div>
-    </div>
-</section>
+    </section>
+</div>
 
 <script>
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+// Theme toggle functionality
+const THEME_KEY = 'dog-dating-theme';
+
+function initTheme() {
+    const htmlElement = document.documentElement;
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem(THEME_KEY) || 'dark';
+    setTheme(savedTheme);
+}
+
+function setTheme(theme) {
+    const htmlElement = document.documentElement;
+    const themeToggle = document.getElementById('theme-toggle');
+    
+    if (!themeToggle) return;
+    
+    htmlElement.setAttribute('data-theme', theme);
+    document.body.setAttribute('data-theme', theme);
+    
+    const icon = themeToggle.querySelector('i');
+    const label = themeToggle.querySelector('.theme-label');
+    
+    if (icon && label) {
+        if (theme === 'light') {
+            icon.className = 'bi bi-sun-fill';
+            label.textContent = 'Светлая';
+        } else {
+            icon.className = 'bi bi-moon-fill';
+            label.textContent = 'Темная';
         }
+    }
+    
+    localStorage.setItem(THEME_KEY, theme);
+}
+
+function toggleTheme() {
+    const htmlElement = document.documentElement;
+    const currentTheme = htmlElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    initTheme();
+    
+    // Attach theme toggle listener
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
     });
-});
 
-// Add some animation on scroll
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
+    // Add some animation on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+
+    // Animate feature cards and testimonial cards on scroll
+    document.querySelectorAll('.feature-card, .testimonial-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
     });
-}, observerOptions);
-
-// Animate feature cards and testimonial cards on scroll
-document.querySelectorAll('.feature-card, .testimonial-card').forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(card);
 });
 </script>
 </body>

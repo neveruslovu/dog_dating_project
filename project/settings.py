@@ -1,8 +1,11 @@
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = "django-insecure-your-secret-key-change-this-in-production-123456789"
+# Generate a secure SECRET_KEY
+SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
 
 DEBUG = True
 
