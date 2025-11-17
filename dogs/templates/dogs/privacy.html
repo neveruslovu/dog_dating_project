@@ -3,14 +3,48 @@
 {% block title %}Политика конфиденциальности - DogDating{% endblock %}
 
 {% block content %}
-<div class="container">
-    <div class="page-header">
-        <h1 class="page-title">Политика конфиденциальности</h1>
-        <p class="page-subtitle">Ваша безопасность - наш приоритет</p>
-    </div>
+<style>
+    .scrollable-content {
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 25px;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(59,130,246,0.4) transparent;
+    }
 
-    <div class="row">
-        <div class="col-md-12">
+    .scrollable-content::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    .scrollable-content::-webkit-scrollbar-track {
+        background: rgba(59,130,246,0.05);
+        border-radius: 4px;
+    }
+
+    .scrollable-content::-webkit-scrollbar-thumb {
+        background: rgba(59,130,246,0.4);
+        border-radius: 4px;
+    }
+
+    .scrollable-content::-webkit-scrollbar-thumb:hover {
+        background: rgba(59,130,246,0.6);
+    }
+
+    .scrollable-content .container {
+        padding-right: 0;
+    }
+</style>
+
+<div class="scrollable-content">
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Политика конфиденциальности</h1>
+            <p class="page-subtitle">Ваша безопасность - наш приоритет</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
             <h3>1. Общие положения</h3>
             <p>Настоящая Политика конфиденциальности определяет порядок обработки и защиты информации о пользователях сервиса DogDating.</p>
 
@@ -88,6 +122,7 @@
                 <a href="{% url 'dogs:landing_page' %}" class="btn btn-outline-secondary">Отклонить</a>
             </div>
         </div>
+    </div>
     </div>
 </div>
 {% endblock %}

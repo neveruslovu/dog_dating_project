@@ -1,0 +1,157 @@
+{% comment %}
+Guest Menu Component for Non-Authenticated Users
+This is a dropdown menu for visitors who haven't logged in yet.
+It mirrors the authenticated user menu but excludes auth-required features.
+
+Feature flags and safety:
+- Has unique class prefix 'guest-menu-' to avoid conflicts with existing styles
+- All functionality is isolated and can be disabled via JavaScript flag
+- No modifications to existing authenticated menu code
+{% endcomment %}
+
+<!-- Guest Menu Dropdown (for non-authenticated users only) -->
+<div class="guest-menu-container" id="guest-menu-container" role="navigation" aria-label="Guest Navigation Menu">
+    <!-- Menu toggle button -->
+    <button 
+        class="guest-menu-toggle" 
+        id="guest-menu-toggle" 
+        aria-expanded="false" 
+        aria-controls="guest-menu-dropdown"
+        title="Меню для гостей"
+    >
+        <i class="bi bi-list"></i>
+        <span class="guest-menu-label">Меню</span>
+    </button>
+
+    <!-- Dropdown menu -->
+    <div 
+        class="guest-menu-dropdown" 
+        id="guest-menu-dropdown"
+        role="menu"
+        aria-hidden="true"
+    >
+        <!-- Informational Section -->
+        <div class="guest-menu-section">
+            <div class="guest-menu-section-title" role="menuitemheader">Информация</div>
+            <ul class="guest-menu-list">
+                <li>
+                    <a 
+                        href="{% url 'dogs:about' %}" 
+                        class="guest-menu-item"
+                        role="menuitem"
+                        data-menu-item="about"
+                    >
+                        <i class="bi bi-info-circle"></i>
+                        <span>О сервисе</span>
+                    </a>
+                </li>
+                <li>
+                    <a 
+                        href="{% url 'dogs:breeds' %}" 
+                        class="guest-menu-item"
+                        role="menuitem"
+                        data-menu-item="breeds"
+                    >
+                        <i class="bi bi-book"></i>
+                        <span>Породы собак</span>
+                    </a>
+                </li>
+                <li>
+                    <a 
+                        href="{% url 'dogs:tips' %}" 
+                        class="guest-menu-item"
+                        role="menuitem"
+                        data-menu-item="tips"
+                    >
+                        <i class="bi bi-lightbulb"></i>
+                        <span>Полезные советы</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Community Section -->
+        <div class="guest-menu-section">
+            <div class="guest-menu-section-title" role="menuitemheader">Сообщество</div>
+            <ul class="guest-menu-list">
+                <li>
+                    <a 
+                        href="{% url 'dogs:events' %}" 
+                        class="guest-menu-item"
+                        role="menuitem"
+                        data-menu-item="events"
+                    >
+                        <i class="bi bi-calendar-event"></i>
+                        <span>События</span>
+                    </a>
+                </li>
+                <li>
+                    <a 
+                        href="{% url 'dogs:contacts' %}" 
+                        class="guest-menu-item"
+                        role="menuitem"
+                        data-menu-item="contacts"
+                    >
+                        <i class="bi bi-envelope"></i>
+                        <span>Контакты</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Policy Section -->
+        <div class="guest-menu-section">
+            <div class="guest-menu-section-title" role="menuitemheader">Политика</div>
+            <ul class="guest-menu-list">
+                <li>
+                    <a 
+                        href="{% url 'dogs:privacy' %}" 
+                        class="guest-menu-item"
+                        role="menuitem"
+                        data-menu-item="privacy"
+                    >
+                        <i class="bi bi-shield-lock"></i>
+                        <span>Конфиденциальность</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Divider -->
+        <div class="guest-menu-divider"></div>
+
+        <!-- Authentication Section -->
+        <div class="guest-menu-section guest-menu-auth-section">
+            <div class="guest-menu-section-title" role="menuitemheader">Аккаунт</div>
+            <ul class="guest-menu-list">
+                <li>
+                    <a 
+                        href="{% url 'dogs:login' %}" 
+                        class="guest-menu-item guest-menu-auth-link"
+                        role="menuitem"
+                        data-menu-item="login"
+                    >
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        <span>Войти</span>
+                    </a>
+                </li>
+                <li>
+                    <a 
+                        href="{% url 'dogs:register' %}" 
+                        class="guest-menu-item guest-menu-auth-link guest-menu-register-link"
+                        role="menuitem"
+                        data-menu-item="register"
+                    >
+                        <i class="bi bi-person-plus"></i>
+                        <span>Регистрация</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% comment %}
+Styling for this component is included in base.html under <!-- Guest Menu Styles -->
+JavaScript functionality is in base.html under <!-- Guest Menu JavaScript -->
+{% endcomment %}

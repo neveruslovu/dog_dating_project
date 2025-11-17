@@ -122,7 +122,287 @@
         font-size: 1.1rem;
     }
 
-    /* Dropdown Menu Styles */
+    /* ============================================================
+       GUEST MENU STYLES - Non-Authenticated User Dropdown
+       All classes prefixed with 'guest-menu-' to avoid conflicts
+       ============================================================ */
+
+    .guest-menu-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .guest-menu-toggle {
+        background: rgba(59,130,246,0.15);
+        border: 1px solid rgba(59,130,246,0.3);
+        color: var(--text-primary);
+        padding: 0.6rem 0.9rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        outline: none;
+    }
+
+    .guest-menu-toggle:hover {
+        background: rgba(59,130,246,0.25);
+        border-color: rgba(59,130,246,0.5);
+        transform: translateY(-2px);
+    }
+
+    .guest-menu-label {
+        display: none;
+    }
+
+    .guest-menu-dropdown {
+        position: absolute;
+        top: calc(100% + 0.5rem);
+        right: 0;
+        background: rgba(26, 31, 58, 0.95);
+        border: 1px solid rgba(59,130,246,0.2);
+        border-radius: 8px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        z-index: 1001;
+        min-width: 280px;
+        max-width: 320px;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        pointer-events: none;
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+        max-height: calc(100vh - 150px);
+        overflow-y: auto;
+    }
+
+    .guest-menu-dropdown.guest-menu-show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .guest-menu-section {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(59,130,246,0.1);
+    }
+
+    .guest-menu-section:last-child {
+        border-bottom: none;
+    }
+
+    .guest-menu-auth-section {
+        background: rgba(59,130,246,0.1);
+    }
+
+    .guest-menu-section-title {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #93c5fd;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0;
+    }
+
+    .guest-menu-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .guest-menu-list li {
+        margin: 0;
+        padding: 0;
+    }
+
+    .guest-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0.75rem 1rem;
+        color: #cbd5e1;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        font-size: 0.95rem;
+        border-left: 3px solid transparent;
+        outline: none;
+    }
+
+    .guest-menu-item i {
+        font-size: 1rem;
+        color: #93c5fd;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+    }
+
+    .guest-menu-item span {
+        flex: 1;
+        transition: all 0.2s ease;
+    }
+
+    .guest-menu-item:hover {
+        background: rgba(59,130,246,0.15);
+        color: #e0e0e0;
+        border-left-color: #3b82f6;
+        padding-left: calc(1rem + 2px);
+    }
+
+    .guest-menu-item:hover i {
+        color: #60a5fa;
+        transform: translateX(2px);
+    }
+
+    .guest-menu-item:focus {
+        background: rgba(59,130,246,0.2);
+        box-shadow: inset 0 0 0 1px #3b82f6;
+    }
+
+    .guest-menu-auth-link {
+        font-weight: 500;
+    }
+
+    .guest-menu-register-link {
+        background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(99,102,241,0.2));
+        border-left-color: #3b82f6;
+        color: #60a5fa;
+    }
+
+    .guest-menu-register-link:hover {
+        background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(99,102,241,0.3));
+        color: #93c5fd;
+    }
+
+    .guest-menu-register-link i {
+        color: #60a5fa;
+    }
+
+    .guest-menu-divider {
+        height: 1px;
+        background: rgba(59,130,246,0.1);
+        margin: 0;
+    }
+
+    /* Scrollbar styling for dropdown */
+    .guest-menu-dropdown::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .guest-menu-dropdown::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .guest-menu-dropdown::-webkit-scrollbar-thumb {
+        background: rgba(59,130,246,0.3);
+        border-radius: 3px;
+    }
+
+    .guest-menu-dropdown::-webkit-scrollbar-thumb:hover {
+        background: rgba(59,130,246,0.5);
+    }
+
+    /* Firefox scrollbar support */
+    .guest-menu-dropdown {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(59,130,246,0.3) transparent;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .guest-menu-label {
+            display: inline;
+        }
+
+        .guest-menu-toggle {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.6rem;
+            gap: 4px;
+        }
+
+        .guest-menu-dropdown {
+            min-width: 250px;
+            max-width: calc(100vw - 2rem);
+            right: auto;
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        .guest-menu-dropdown.guest-menu-show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .guest-menu-item {
+            padding: 0.6rem 0.85rem;
+            font-size: 0.9rem;
+            gap: 8px;
+        }
+
+        .guest-menu-item i {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .guest-menu-label {
+            display: none;
+        }
+
+        .guest-menu-toggle {
+            padding: 0.4rem 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .guest-menu-dropdown {
+            min-width: 240px;
+            right: -10px;
+        }
+    }
+
+    [data-theme="light"] .guest-menu-dropdown {
+        background: rgba(248, 250, 252, 0.95);
+        border-color: rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="light"] .guest-menu-section {
+        border-bottom-color: rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="light"] .guest-menu-section-title {
+        color: #3b82f6;
+    }
+
+    [data-theme="light"] .guest-menu-item {
+        color: #334155;
+    }
+
+    [data-theme="light"] .guest-menu-item i {
+        color: #3b82f6;
+    }
+
+    [data-theme="light"] .guest-menu-item:hover {
+        background: rgba(59,130,246,0.1);
+        color: #1e293b;
+    }
+
+    [data-theme="light"] .guest-menu-item:hover i {
+        color: #60a5fa;
+    }
+
+    [data-theme="light"] .guest-menu-auth-section {
+        background: rgba(59,130,246,0.05);
+    }
+
+    [data-theme="light"] .guest-menu-divider {
+        background: rgba(0, 0, 0, 0.05);
+    }
 
 
     /* Hero Section */
@@ -595,6 +875,9 @@
             <i class="bi bi-sun-fill"></i>
             <span class="theme-label">Светлая</span>
         </button>
+
+        <!-- Guest Menu for Landing Page -->
+        {% include 'dogs/components/guest_menu.html' %}
     </div>
 </header>
 
@@ -814,7 +1097,92 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(card);
     });
+
+    // Initialize guest menu (same as in base.html)
+    initGuestMenu();
 });
+
+/* ============================================================
+   GUEST MENU JAVASCRIPT - Dropdown Menu for Guests
+   Feature: Provides navigation for non-authenticated users
+   ============================================================ */
+
+const GUEST_MENU_ENABLED = true;
+
+function initGuestMenu() {
+    if (!GUEST_MENU_ENABLED) {
+        console.info('[Guest Menu] Feature is disabled via flag');
+        return;
+    }
+
+    const guestMenuToggle = document.getElementById('guest-menu-toggle');
+    const guestMenuDropdown = document.getElementById('guest-menu-dropdown');
+
+    if (!guestMenuToggle || !guestMenuDropdown) {
+        console.debug('[Guest Menu] Guest menu elements not found');
+        return;
+    }
+
+    console.info('[Guest Menu] Initializing guest dropdown menu');
+
+    function toggleGuestMenu(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isOpen = guestMenuDropdown.classList.contains('guest-menu-show');
+        
+        if (isOpen) {
+            guestMenuDropdown.classList.remove('guest-menu-show');
+            guestMenuToggle.setAttribute('aria-expanded', 'false');
+            guestMenuDropdown.setAttribute('aria-hidden', 'true');
+        } else {
+            guestMenuDropdown.classList.add('guest-menu-show');
+            guestMenuToggle.setAttribute('aria-expanded', 'true');
+            guestMenuDropdown.setAttribute('aria-hidden', 'false');
+        }
+    }
+
+    function closeGuestMenu(e) {
+        if (guestMenuToggle.contains(e.target) || guestMenuToggle.closest('.guest-menu-container').contains(e.target)) {
+            return;
+        }
+
+        if (guestMenuDropdown.classList.contains('guest-menu-show')) {
+            guestMenuDropdown.classList.remove('guest-menu-show');
+            guestMenuToggle.setAttribute('aria-expanded', 'false');
+            guestMenuDropdown.setAttribute('aria-hidden', 'true');
+        }
+    }
+
+    function handleKeyboardNavigation(e) {
+        const isOpen = guestMenuDropdown.classList.contains('guest-menu-show');
+
+        if (e.key === 'Escape' && isOpen) {
+            e.preventDefault();
+            guestMenuDropdown.classList.remove('guest-menu-show');
+            guestMenuToggle.setAttribute('aria-expanded', 'false');
+            guestMenuDropdown.setAttribute('aria-hidden', 'true');
+            guestMenuToggle.focus();
+            return;
+        }
+
+        if ((e.key === 'Enter' || e.key === ' ') && document.activeElement === guestMenuToggle && !isOpen) {
+            e.preventDefault();
+            toggleGuestMenu(e);
+        }
+    }
+
+    guestMenuToggle.addEventListener('click', toggleGuestMenu);
+    document.addEventListener('click', closeGuestMenu);
+    guestMenuDropdown.querySelectorAll('.guest-menu-item').forEach(item => {
+        item.addEventListener('click', function() {
+            // Let the link navigate naturally
+        });
+    });
+    document.addEventListener('keydown', handleKeyboardNavigation);
+
+    console.debug('[Guest Menu] Event listeners attached successfully');
+}
 </script>
 </body>
 </html>
