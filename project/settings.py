@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "menu_app",
     "dogs",
+    "tests",
 ]
 
 MIDDLEWARE = [
