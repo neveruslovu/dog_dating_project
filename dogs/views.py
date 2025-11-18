@@ -5,7 +5,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import Q, Count
 from django.core.paginator import Paginator
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
+from django.core.exceptions import PermissionDenied
+from services.favorites_service import toggle_favorite_for_user
 from .models import Dog, UserProfile, Match, Favorite
 from .forms import (
     UserRegistrationForm,
@@ -358,18 +360,15 @@ def delete_account(request):
 @login_required
 def toggle_favorite(request, pk):
     """Добавление/удаление из избранного (AJAX)"""
-    dog = get_object_or_404(Dog, pk=pk, is_active=True)
+    if request.method != "POST":
+        return HttpResponseForbidden()
 
-    favorite, created = Favorite.objects.get_or_create(user=request.user, dog=dog)
-
-    if not created:
-        # Если уже было в избранном, удаляем
-        favorite.delete()
-        is_favorite = False
-        message = f"{dog.name} удалена из избранного"
-    else:
-        is_favorite = True
-        message = f"{dog.name} добавлена в избранное"
+    try:
+        is_favorite, message = toggle_favorite_for_user(request.user, pk)
+    except Dog.DoesNotExist:
+        return JsonResponse({"error": "Собака не найдена."}, status=404)
+    except PermissionDenied:
+        return HttpResponseForbidden()
 
     return JsonResponse({"is_favorite": is_favorite, "message": message})
 
@@ -377,7 +376,7 @@ def toggle_favorite(request, pk):
 @login_required
 def matches_list(request):
     """Список мэтчей пользователя"""
-    matches = (
+    matches_qs = (
         Match.objects.filter(
             Q(dog_from__owner=request.user) | Q(dog_to__owner=request.user)
         )
@@ -385,20 +384,38 @@ def matches_list(request):
         .order_by("-created_at")
     )
 
+    paginator = Paginator(matches_qs, 10)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
     return render(
-        request, "dogs/matches.html", {"matches": matches, "page_title": "Мои мэтчи"}
+        request,
+        "dogs/matches.html",
+        {
+            "matches": page_obj.object_list,
+            "page_obj": page_obj,
+            "page_title": "Мои мэтчи",
+        },
     )
 
 
 @login_required
 def favorites_list(request):
     """Список избранных собак"""
-    favorites = Favorite.objects.filter(user=request.user).select_related("dog")
+    favorites_qs = Favorite.objects.filter(user=request.user).select_related("dog")
+
+    paginator = Paginator(favorites_qs, 12)
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
 
     return render(
         request,
         "dogs/favorites.html",
-        {"favorites": favorites, "page_title": "Избранное"},
+        {
+            "favorites": page_obj.object_list,
+            "page_obj": page_obj,
+            "page_title": "Избранное",
+        },
     )
 
 

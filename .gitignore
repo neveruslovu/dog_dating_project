@@ -1,0 +1,32 @@
+# Django / Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+
+# Virtual environments
+env/
+.venv/
+
+# Environment variables
+.env
+.env.*
+
+# Local databases
+*.sqlite3
+db.sqlite3
+
+# Media uploads
+media/
+
+# IDE / tooling
+.vscode/
+.idea/
+*.iml
+.mypy_cache/
+.pytest_cache/
+
+# OS files
+.DS_Store
+Thumbs.db

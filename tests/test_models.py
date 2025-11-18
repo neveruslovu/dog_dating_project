@@ -111,7 +111,8 @@ class DogModelTest(TestCase):
             temperament="friendly",
             looking_for="playmate",
         )
-        self.assertEqual(str(dog), "Test Dog (Test Breed)")
+        # Dog.__str__ now includes the owner username, per domain requirements
+        self.assertEqual(str(dog), "Test Dog (dogowner)")
 
     def test_dog_update(self):
         dog = Dog.objects.create(

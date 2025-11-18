@@ -1,5 +1,31 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
+
+ALLOWED_DOG_IMAGE_MIME_TYPES = {"image/jpeg", "image/png", "image/webp"}
+MAX_DOG_IMAGE_SIZE_MB = 5
+
+
+def validate_dog_image(image):
+    """Validate uploaded dog images for size and MIME type."""
+    if not image:
+        return
+
+    size = getattr(image, "size", None)
+    if size is not None and size > MAX_DOG_IMAGE_SIZE_MB * 1024 * 1024:
+        raise ValidationError(
+            _("Размер изображения не должен превышать %(size)s МБ."),
+            params={"size": MAX_DOG_IMAGE_SIZE_MB},
+        )
+
+    content_type = getattr(image, "content_type", None)
+    if content_type and content_type not in ALLOWED_DOG_IMAGE_MIME_TYPES:
+        raise ValidationError(
+            _("Допустимые форматы изображения: JPEG, PNG, WebP."),
+        )
 
 
 class Dog(models.Model):
@@ -28,7 +54,10 @@ class Dog(models.Model):
     )
     name = models.CharField(max_length=100, verbose_name="Кличка")
     breed = models.CharField(max_length=100, verbose_name="Порода")
-    age = models.PositiveIntegerField(verbose_name="Возраст (в годах)")
+    age = models.PositiveIntegerField(
+        verbose_name="Возраст (в годах)",
+        validators=[MinValueValidator(0), MaxValueValidator(20)],
+    )
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, verbose_name="Пол")
     size = models.CharField(max_length=1, choices=SIZE_CHOICES, verbose_name="Размер")
     temperament = models.CharField(
@@ -47,7 +76,11 @@ class Dog(models.Model):
         help_text="Расскажите о вашей собаке: привычки, любимые занятия и т.д.",
     )
     photo = models.ImageField(
-        upload_to="dogs/", blank=True, null=True, verbose_name="Фото"
+        upload_to="dogs/",
+        blank=True,
+        null=True,
+        verbose_name="Фото",
+        validators=[validate_dog_image],
     )
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата регистрации"
@@ -59,9 +92,15 @@ class Dog(models.Model):
         verbose_name = "Собака"
         verbose_name_plural = "Собаки"
         ordering = ["-created_at"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["owner", "name"],
+                name="unique_dog_name_per_owner",
+            ),
+        ]
 
     def __str__(self):
-        return f"{self.name} ({self.breed})"
+        return f"{self.name} ({self.owner.username})"
 
 
 class UserProfile(models.Model):
@@ -122,10 +161,27 @@ class Match(models.Model):
     class Meta:
         verbose_name = "Мэтч"
         verbose_name_plural = "Мэтчи"
-        unique_together = ["dog_from", "dog_to"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["dog_from", "dog_to"],
+                name="unique_match_dog_from_dog_to",
+            ),
+        ]
+        indexes = [
+            models.Index(fields=["dog_from"], name="idx_match_dog_from"),
+            models.Index(fields=["dog_to"], name="idx_match_dog_to"),
+            models.Index(
+                fields=["dog_from", "dog_to"],
+                name="idx_match_dog_from_dog_to",
+            ),
+        ]
 
     def __str__(self):
-        return f"{self.dog_from.name} → {self.dog_to.name}: {self.get_status_display()}"
+        return (
+            f"{self.dog_from.name} ({self.dog_from.owner.username}) "
+            f"→ {self.dog_to.name} ({self.dog_to.owner.username}): "
+            f"{self.get_status_display()}"
+        )
 
 
 class Message(models.Model):
@@ -163,7 +219,7 @@ class Favorite(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="favorites",
+        related_name="favorite_dogs",
         verbose_name="Пользователь",
     )
     dog = models.ForeignKey(
@@ -177,7 +233,17 @@ class Favorite(models.Model):
     class Meta:
         verbose_name = "Избранное"
         verbose_name_plural = "Избранное"
-        unique_together = ["user", "dog"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "dog"],
+                name="unique_favorite_per_user_and_dog",
+            ),
+        ]
+        indexes = [
+            models.Index(fields=["user"], name="idx_favorite_user"),
+            models.Index(fields=["dog"], name="idx_favorite_dog"),
+            models.Index(fields=["user", "dog"], name="idx_favorite_user_dog"),
+        ]
 
     def __str__(self):
         return f"{self.user.username} добавил в избранное {self.dog.name}"

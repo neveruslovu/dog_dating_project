@@ -10,9 +10,9 @@
 
 <div class="card">
     <div class="card-body">
-        {% if matches %}
+        {% if page_obj.object_list %}
             <div style="display: grid; gap: 1rem;">
-                {% for match in matches %}
+                {% for match in page_obj.object_list %}
                 <div style="border: 1px solid rgba(59,130,246,0.15); border-radius: 12px; padding: 1rem; background: rgba(51,65,85,0.4);">
                     <div style="display: flex; align-items: center; gap: 1rem;">
                         <div>
@@ -35,4 +35,44 @@
         {% endif %}
     </div>
 </div>
+{% if page_obj.paginator.num_pages > 1 %}
+    <div style="margin-top: 2rem; display: flex; justify-content: center;">
+        <nav>
+            <ul class="pagination" style="display: flex; list-style: none; gap: 0.5rem; margin: 0; padding: 0;">
+                {% if page_obj.has_previous %}
+                    <li>
+                        <a href="?page={{ page_obj.previous_page_number }}"
+                           style="padding: 0.5rem 1rem; border: 1px solid rgba(59,130,246,0.3); border-radius: 4px; text-decoration: none; color: #60a5fa; transition: all 0.2s;">
+                            ← Назад
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li style="padding: 0.5rem 1rem; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 8px; border: 1px solid transparent;">
+                            {{ num }}
+                        </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                        <li>
+                            <a href="?page={{ num }}"
+                               style="padding: 0.5rem 1rem; border: 1px solid rgba(59,130,246,0.3); border-radius: 4px; text-decoration: none; color: #60a5fa; transition: all 0.2s;">
+                                {{ num }}
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li>
+                        <a href="?page={{ page_obj.next_page_number }}"
+                           style="padding: 0.5rem 1rem; border: 1px solid rgba(59,130,246,0.3); border-radius: 4px; text-decoration: none; color: #60a5fa; transition: all 0.2s;">
+                            Далее →
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+{% endif %}
 {% endblock %}

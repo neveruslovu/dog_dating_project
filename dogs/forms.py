@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from .models import Dog, UserProfile
+from .models import Dog, UserProfile, Match, Favorite
 
 
 class UserRegistrationForm(UserCreationForm):
@@ -173,9 +173,24 @@ class DogForm(forms.ModelForm):
 
     def clean_age(self):
         age = self.cleaned_data.get("age")
-        if age is not None and (age < 0 or age > 25):
-            raise ValidationError("Возраст должен быть от 0 до 25 лет")
+        if age is not None and (age < 0 or age > 20):
+            raise ValidationError("Возраст должен быть от 0 до 20 лет")
         return age
+
+    def clean_photo(self):
+        photo = self.cleaned_data.get("photo")
+        if not photo:
+            return photo
+
+        max_mb = 5
+        if getattr(photo, "size", 0) > max_mb * 1024 * 1024:
+            raise ValidationError(f"Размер изображения не должен превышать {max_mb} МБ")
+
+        content_type = getattr(photo, "content_type", "")
+        if content_type not in {"image/jpeg", "image/png", "image/webp"}:
+            raise ValidationError("Допустимые форматы изображения: JPEG, PNG, WebP")
+
+        return photo
 
 
 class UserProfileForm(forms.ModelForm):
@@ -309,3 +324,39 @@ class DogSearchForm(forms.Form):
         widget=forms.Select(attrs={"class": "form-select"}),
         label="Размер",
     )
+
+
+class MatchForm(forms.ModelForm):
+    """Форма для создания/редактирования мэтча между собаками."""
+
+    class Meta:
+        model = Match
+        fields = ["dog_from", "dog_to"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        dog_from = cleaned_data.get("dog_from")
+        dog_to = cleaned_data.get("dog_to")
+
+        if dog_from and dog_to and dog_from == dog_to:
+            raise ValidationError("Нельзя создать мэтч для одной и той же собаки.")
+
+        return cleaned_data
+
+
+class FavoriteForm(forms.ModelForm):
+    """Форма для добавления собаки в избранное."""
+
+    class Meta:
+        model = Favorite
+        fields = ["user", "dog"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        user = cleaned_data.get("user")
+        dog = cleaned_data.get("dog")
+
+        if user and dog and dog.owner == user:
+            raise ValidationError("Нельзя добавлять собственную собаку в избранное.")
+
+        return cleaned_data

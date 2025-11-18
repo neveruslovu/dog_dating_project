@@ -4,70 +4,76 @@
 ![Django Version](https://img.shields.io/badge/Django-4.2+-green?style=flat-square)
 ![Python Version](https://img.shields.io/badge/Python-3.8+-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
-<img width="2539" height="1245" alt="image" src="https://github.com/user-attachments/assets/b3c7b64b-8ba9-4d0e-8145-a129abd5523a" />
-<img width="2541" height="1274" alt="image" src="https://github.com/user-attachments/assets/a69504af-f6ff-431c-a3b7-d7904b506213" />
 
-DogDating is a modern web application built with Django that helps dog owners find compatible companions for their pets. The platform features user profiles, matching system, favorites, and a responsive design with Russian language support.
+DogDating is a modern web application built with Django that helps dog owners find compatible companions for their pets. The platform features user profiles, a matching system, favorites, and a responsive design with Russian language support.
+
+---
 
 ## 🌟 Features
 
 ### Core Functionality
 
-- **User Authentication System** - Registration, login, password management
-- **Dog Profile Management** - Create, edit, and manage multiple dog profiles
-- **Matching System** - Basic compatibility matching between dogs
-- **Favorites System** - Save dogs you're interested in
-- **Match Management** - View and manage match requests
-- **User Profiles** - Extended user information with avatars
-- **Search & Browse** - View all dogs with basic filtering
-- **Dashboard** - Central hub for user activities
-- **Guest Menu System** - Navigation for non-authenticated users ✨ **NEW**
+- **User Authentication System** – registration, login, password management
+- **Dog Profile Management** – create, edit, and manage multiple dog profiles
+- **Matching System** – compatibility matching between dogs
+- **Favorites System** – save dogs you’re interested in
+- **Match Management** – view and manage match requests
+- **User Profiles** – extended user information with avatars
+- **Search & Browse** – view all dogs with filtering
+- **Dashboard** – central hub for user activities
+- **Guest Menu System** – navigation for non‑authenticated users
 
 ### Additional Features
 
-- **Multi-language Support** - Russian language interface (LANGUAGE_CODE: ru-ru)
-- **Menu Management System** - Dynamic menu via menu_app
-- **Custom Error Pages** - 404 and 500 error handling
-- **Template Components** - Reusable template components
-- **Image Optimization** - Automatic image resizing and optimization for uploads
-- **Management Commands** - Data population and menu setup commands
+- **Russian Language Interface** – `LANGUAGE_CODE='ru-ru'`
+- **Menu Management System** – dynamic menu via `menu_app`
+- **Custom Error Pages** – 404 and 500 error handling
+- **Template Components** – reusable template components
+- **Image Validation & Optimization** – validation for dog photos + utilities for placeholders/optimization
+- **Management Commands** – data population and menu setup commands
 
 ### Technical Features
 
-- **Django 4.2+** - Modern Django framework with latest features
-- **SQLite Database** - Lightweight database for development and small deployments
-- **Template System** - Django templates with custom template tags
-- **Static Files Management** - Organized static and media file handling
-- **Error Handling** - Custom 404 and 500 error pages
-- **Admin Panel** - Django admin interface for content management
-- **Management Commands** - Custom Django management commands for data setup
+- **Django 4.2+** – modern Django framework
+- **SQLite (dev) + Postgres (prod)**
+  - SQLite is used by default for local development.
+  - Postgres is used via `DATABASE_URL` (e.g. in Docker/docker‑compose).
+- **Settings Package**
+  - `project/settings/base.py` – shared configuration
+  - `project/settings/development.py` – local/dev overrides
+  - `project/settings/production.py` – production settings (security, Postgres)
+- **Env‑based configuration** using `django-environ` and `.env`
+- **Template System** – Django templates with custom template tags
+- **Static & Media Files** – organized static and media handling
+- **Logging** – structured console logging suitable for Docker
+- **Admin Panel** – Django admin interface
 
 ### UI/UX Features
 
-- **Responsive Design** - Mobile-first design with full mobile support ✨ **NEW**
-- **Mobile Optimized** - Tested on iPhone, Android, tablets ✨ **NEW**
-- **Russian Language** - Full Russian language interface
-- **Component-based Templates** - Reusable template components
-- **Clean Layout** - Simple, user-friendly design
-- **Navigation System** - Dynamic menu management
-- **Touch-Friendly** - Optimized for touch screens and gestures ✨ **NEW**
-- **Notch Support** - Works with iPhone X+ and Android notches ✨ **NEW**
-- **Dark/Light Theme** - Automatic theme switching based on OS preferences
+- **Responsive Design** – mobile‑first layout
+- **Mobile Optimized** – tested on phones, tablets
+- **Dark/Light Theme** – automatic theme switching based on OS
+- **Component-based Templates** – header, footer, guest menu, messages
+- **Touch-Friendly** – larger hit targets and mobile CSS/JS
+
+---
 
 ## 📱 Mobile Support
 
-This project is **fully optimized for mobile devices**! Features include:
+The project is optimized for mobile devices:
 
-- ✅ Responsive grid system (320px - 1920px+)
-- ✅ Touch-friendly interface (48x48px minimum touch targets)
-- ✅ iPhone X+ notch support with safe area insets
-- ✅ Android device support (Samsung, Google Pixel, etc.)
-- ✅ Tablet support (iPad, Samsung Galaxy Tab)
-- ✅ Landscape/Portrait orientation handling
-- ✅ Fast performance on 4G/3G networks
-- ✅ Optimized images with lazy loading
+- Responsive grid system (320px–1920px+)
+- Touch‑friendly interface (≥48×48 px targets)
+- Notch support with safe‑area insets (iOS/Android)
+- Portrait/landscape handling
+- Optimized images and lazy loading
 
-**See [MOBILE_OPTIMIZATION.md](./MOBILE_OPTIMIZATION.md) for detailed mobile features!**
+See:
+
+- [MOBILE_OPTIMIZATION.md](./MOBILE_OPTIMIZATION.md)
+- [MOBILE_TESTING_GUIDE.md](./MOBILE_TESTING_GUIDE.md)
+
+---
 
 ## 📋 Table of Contents
 
@@ -77,482 +83,416 @@ This project is **fully optimized for mobile devices**! Features include:
 - [Project Structure](#project-structure)
 - [Database Models](#database-models)
 - [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
+- [Testing](#-testing)
+- [Docker & Postgres](#-docker--postgres)
+- [Deployment](#-deployment)
+- [Roadmap](#-roadmap)
+
+---
 
 ## 🚀 Installation
 
 ### Prerequisites
 
-- Python 3.8 or higher
-- pip (Python package installer)
+- Python 3.8 or higher (3.11 recommended)
+- `pip`
 - Virtual environment (recommended)
+- Optional: Docker & Docker Compose (for Postgres setup)
 
-### Setup Instructions
+### Local Setup (SQLite + venv)
 
-1. **Clone the repository**
+```bash
+git clone https://github.com/yourusername/dog-dating.git
+cd dog-dating
 
-   ```bash
-   git clone https://github.com/yourusername/dog-dating.git
-   cd dog-dating
-   ```
+python -m venv venv
+source venv/bin/activate  # Windows PowerShell: .\venv\Scripts\Activate.ps1
 
-2. **Create a virtual environment**
+pip install -r requirements.txt
+```
 
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
+Create a `.env` file based on `.env.example`:
 
-3. **Install dependencies**
+```bash
+cp .env.example .env
+# Edit .env to set SECRET_KEY, DEBUG, DATABASE_URL (optional), email, security, etc.
+```
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+Apply migrations and (optionally) load demo data:
 
-   Note: The project uses Django>=4.2,<5.0 as the main dependency.
+```bash
+python manage.py migrate
+python manage.py setup_menus      # create navigation menus
+python manage.py populate_data    # create demo users, dogs, matches, favorites
+```
 
-4. **Database setup**
+Create a superuser (optional):
 
-   ```bash
-   python manage.py makemigrations
-   python manage.py migrate
-   ```
+```bash
+python manage.py createsuperuser
+```
 
-5. **Create a superuser**
+Run the development server:
 
-   ```bash
-   python manage.py createsuperuser
-   ```
+```bash
+python manage.py runserver
+```
 
-6. **Run the development server**
+Access:
 
-   ```bash
-   python manage.py runserver
-   ```
+- Main site: <http://127.0.0.1:8000>
+- Admin: <http://127.0.0.1:8000/admin>
 
-7. **Access the application**
-   - Main site: <http://127.0.0.1:8000>
-   - Admin panel: <http://127.0.0.1:8000/admin>
-
-8. **Optional: Populate sample data**
-
-   ```bash
-   python manage.py populate_data
-   ```
+---
 
 ## ⚙️ Configuration
 
-### Environment Variables
+### Settings Architecture
 
-The project uses environment variables for configuration. Key settings:
+The project uses a **settings package** instead of a single `settings.py`:
 
-- `SECRET_KEY` - Auto-generated if not provided
-- `DEBUG` - Set to True for development
-- `ALLOWED_HOSTS` - Defaults to ["localhost", "127.0.0.1"]
-- `LANGUAGE_CODE` - Set to "ru-ru" (Russian)
-- `TIME_ZONE` - Set to "Europe/Moscow"
+- `project/settings/base.py`
+  - Core application list, middleware, templates, static/media paths.
+  - Env‑driven security and database config using `django-environ`.
+- `project/settings/development.py`
+  - Imports `base` and sets `DEBUG=True` by default.
+- `project/settings/production.py`
+  - Imports `base`, forces `DEBUG=False` and enables security flags:
+    - `SESSION_COOKIE_SECURE`, `CSRF_COOKIE_SECURE`
+    - `SECURE_HSTS_SECONDS`, `SECURE_HSTS_INCLUDE_SUBDOMAINS`, `SECURE_HSTS_PRELOAD`
+    - `SECURE_SSL_REDIRECT`, `CSRF_TRUSTED_ORIGINS`
+
+Django entrypoints (`manage.py`, `asgi.py`, `wsgi.py`) use:
+
+```python
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
+```
+
+which resolves to `project.settings.development` by default.
+
+### Environment Variables (.env)
+
+Core variables (see `.env.example`):
+
+- `SECRET_KEY` – secret key for Django
+- `DEBUG` – `True`/`False`
+- `ALLOWED_HOSTS` – comma‑separated list
+- `DATABASE_URL` – for Postgres or alternative DB, e.g.
+  - `sqlite:///project/db.sqlite3` (default fallback)
+  - `postgres://user:password@host:5432/dbname`
+- Email configuration: `EMAIL_BACKEND`, `EMAIL_HOST`, `EMAIL_PORT`, `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`, `EMAIL_USE_TLS`, `EMAIL_USE_SSL`, `DEFAULT_FROM_EMAIL`
+- Security flags for production: `SESSION_COOKIE_SECURE`, `CSRF_COOKIE_SECURE`, `SECURE_HSTS_SECONDS`, `SECURE_SSL_REDIRECT`, `CSRF_TRUSTED_ORIGINS`
+- Placeholders for S3/MinIO (not wired yet): `AWS_*`, `MINIO_*`
 
 ### Media Files
-
-The application uses Django's media files for image uploads. Images are automatically optimized and stored in:
 
 - Dog photos: `media/dogs/`
 - User avatars: `media/avatars/`
 
-### Database Configuration
+Images are validated on upload:
 
-The project uses SQLite by default with `db.sqlite3` file. The current configuration includes:
+- Allowed types: JPEG, PNG, WebP
+- Max size: 5 MB (configurable in code)
 
-- SQLite database for development
-- Basic user authentication models
-- Dog profiles and matching system
-- Menu management system
-
-For production, consider PostgreSQL or MySQL for better performance.
+---
 
 ## 📖 Usage
 
 ### Getting Started
 
-1. **Register an Account**
-   - Visit the landing page
-   - Click "Registration"
-   - Fill in your details
-
-2. **Create Your Dog Profile**
-   - Go to "Add Dog" from the dashboard
-   - Upload a photo and fill in details
-   - Set preferences for what you're looking for
-
-3. **Browse and Match**
-   - View the list of all dogs
-   - Use filters to find compatible dogs
-   - Send match requests to dogs you like
-
-4. **Manage Matches**
-   - View your pending matches
-   - Accept or decline match requests
-   - Chat with matched dogs' owners
+1. Register an account.
+2. Create one or more dog profiles.
+3. Browse the list of dogs, filter, and send match requests.
+4. Add dogs to favorites and manage matches.
 
 ### User Roles
 
-#### Regular Users
+**Regular Users** can:
 
-- Create and manage dog profiles
-- Browse other dogs
-- Send and receive match requests
-- Send messages to matched users
-- Manage favorites
+- Create and manage dog profiles.
+- Browse other dogs.
+- Send and receive match requests.
+- Manage favorites.
 
-#### Administrators
+**Administrators** can:
 
-- Access to Django admin panel
-- Manage all users, dogs, and content
-- View site statistics
-- Moderate content
+- Access Django admin.
+- Manage users, dogs, and menu entries.
+- Moderate content.
 
-## 📁 Project Structure
+---
 
-```
-dog_dating_project/
-├── manage.py                 # Django management script
-├── requirements.txt          # Python dependencies (Django>=4.2,<5.0)
-├── README.md                 # This file
-├── db.sqlite3               # SQLite database file
-├── project/                  # Project configuration
+## 📁 Project Structure (Updated)
+
+```text
+c:\...\dog_dating_project/
+├── manage.py
+├── requirements.txt
+├── README.md
+├── .env.example
+├── .gitignore
+├── .dockerignore
+├── Dockerfile
+├── docker-compose.yml
+├── project/
 │   ├── __init__.py
-│   ├── settings.py           # Django settings (Russian locale)
-│   ├── urls.py              # Main URL configuration
-│   ├── wsgi.py              # WSGI configuration
-│   └── asgi.py              # ASGI configuration
-├── dogs/                     # Main application
+│   ├── asgi.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── settings/
+│       ├── __init__.py          # exports development settings by default
+│       ├── base.py              # shared settings (env‑driven)
+│       ├── development.py       # dev overrides
+│       └── production.py        # production overrides (security, Postgres)
+├── dogs/
 │   ├── __init__.py
-│   ├── admin.py             # Admin interface configuration
-│   ├── apps.py              # App configuration
-│   ├── forms.py             # Django forms
-│   ├── models.py            # Database models
-│   ├── urls.py              # App URL patterns
-│   ├── utils.py             # Utility functions
-│   ├── views.py             # View functions
-│   ├── views_new.py         # Additional views
-│   ├── management/          # Management commands
+│   ├── admin.py
+│   ├── apps.py
+│   ├── forms.py
+│   ├── models.py
+│   ├── urls.py
+│   ├── utils.py
+│   ├── views.py
+│   ├── views_new.py
+│   ├── management/
 │   │   └── commands/
-│   │       └── populate_data.py  # Data population command
-│   ├── migrations/          # Database migrations
-│   ├── templatetags/        # Custom template tags
+│   │       └── populate_data.py
+│   ├── migrations/
+│   │   ├── 0001_initial.py
+│   │   └── 0002_alter_favorite_unique_together_and_more.py
+│   ├── templatetags/
 │   │   └── dogs_tags.py
-│   └── templates/           # HTML templates
-│       └── dogs/
-│           ├── base.html
-│           ├── landing.html
-│           ├── dashboard.html
-│           ├── dog_list.html
-│           ├── dog_detail.html
-│           ├── dog_form.html
-│           ├── profile.html
-│           ├── login.html
-│           ├── register.html
-│           ├── matches.html
-│           ├── favorites.html
-│           ├── about.html
-│           ├── contacts.html
-│           ├── privacy.html
-│           ├── tips.html
-│           ├── events.html
-│           ├── breeds.html
-│           ├── error_404.html
-│           ├── error_500.html
-│           └── components/
-│               └── guest_menu.html
-│               └── messages.html
-├── menu_app/                 # Menu management app
+│   └── templates/dogs/
+│       ├── base.html
+│       ├── landing.html
+│       ├── dashboard.html
+│       ├── dog_list.html
+│       ├── dog_detail.html
+│       ├── dog_form.html
+│       ├── profile.html
+│       ├── login.html
+│       ├── register.html
+│       ├── matches.html
+│       ├── favorites.html
+│       ├── about.html
+│       ├── contacts.html
+│       ├── privacy.html
+│       ├── tips.html
+│       ├── events.html
+│       ├── breeds.html
+│       ├── error_404.html
+│       ├── error_500.html
+│       └── components/
+│           ├── guest_menu.html
+│           └── messages.html
+├── menu_app/
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
 │   ├── models.py
-│   ├── management/          # Management commands
-│   │   └── commands/
-│   │       └── setup_menus.py  # Menu setup command
+│   ├── management/commands/
+│   │   └── setup_menus.py
 │   ├── migrations/
-│   ├── templatetags/
-│   │   └── menu_tags.py
-│   └── templates/
-│       └── menu/
-│           ├── menu.html
-│           └── menu_item.html
-└── tests/                    # Test suite
+│   ├── templatetags/menu_tags.py
+│   └── templates/menu/
+│       ├── menu.html
+│       └── menu_item.html
+├── services/
+│   ├── dog_service.py        # dog ownership & visibility checks
+│   ├── favorites_service.py  # favorites toggle logic + permissions
+│   └── match_service.py      # match creation/accept/decline logic
+└── tests/
     ├── test_db.py
     ├── test_models.py
     ├── test_views.py
-    └── validate_guest_menu.py # Guest menu implementation test
+    ├── test_validations_and_services.py
+    └── validate_guest_menu.py
 ```
 
-## 🗃️ Database Models
+---
 
-### Core Models
+## 🗃️ Database Models (Updated)
 
-#### User (Django Built-in)
+### Dog
 
-- Basic authentication and user management
-- Extended with OneToOne UserProfile
+- Basic profile (name, breed, age, gender, size, temperament, description)
+- `owner = ForeignKey(User, related_name="dogs")`
+- Age limited to 0–20 years (validator + form validation)
+- Photo field with size and MIME type validation (JPEG, PNG, WebP)
+- Unique constraint per owner: a user cannot create two dogs with the same name.
+- `__str__` format: `"{name} ({owner.username})"`.
 
-#### Dog
+### Match
 
-- Dog profile information
-- Owner relationship
-- Matching preferences
-- Photo uploads
+- Stores dog‑to‑dog matches with `status` (`pending`, `accepted`, `declined`).
+- Unique constraint on `(dog_from, dog_to)` and indexes for efficient lookups.
+- `__str__` includes both dog names and owners.
 
-#### UserProfile
+### Favorite
 
-- Extended user information
-- Bio, location, phone
-- Avatar uploads
+- Stores which dogs a user has favorited.
+- `user = ForeignKey(User, related_name="favorite_dogs")`
+- Unique constraint on `(user, dog)` + indexes on `user`, `dog`, and `(user, dog)`.
 
-#### Match
+### UserProfile, Message, Menu
 
-- Dog-to-dog matching system
-- Status tracking
-- Timestamp tracking
+- Unchanged conceptually from the original README; provide extended user info, internal messaging, and navigation menu management.
 
-#### Favorite
+---
 
-- User's favorite dogs
-- Many-to-many relationship
-- Timestamp tracking
+## 🔌 API Endpoints (High Level)
 
-#### Menu (menu_app)
-
-- Dynamic menu management
-- Hierarchical menu structure
-- Multi-language support
-
-### Model Relationships
-
-```
-User ←→ UserProfile (1:1)
-User ←→ Dog (1:many)
-Dog ←→ Match (1:many)
-User ←→ Favorite (1:many)
-Menu ←→ MenuItem (1:many)
-```
-
-## 🔌 API Endpoints
+This project is primarily server‑rendered HTML; the following are HTTP endpoints rather than a formal JSON API:
 
 ### Authentication
 
-- `POST /register/` - User registration
-- `POST /login/` - User login
-- `POST /logout/` - User logout
+- `GET /register/`, `POST /register/` – user registration
+- `GET /login/`, `POST /login/` – login
+- `GET /logout/` – logout
 
 ### Dog Management
 
-- `GET /dogs/` - List all dogs with filters
-- `GET /dogs/<id>/` - Dog detail view
-- `POST /dogs/create/` - Create new dog profile
-- `PUT /dogs/<id>/edit/` - Update dog profile
-- `DELETE /dogs/<id>/delete/` - Delete dog profile
+- `GET /dogs/` – list all dogs with filters + pagination
+- `GET /dogs/<id>/` – dog detail view
+- `GET/POST /dogs/create/` – create dog profile
+- `GET/POST /dogs/<id>/edit/` – edit dog profile (owner‑only)
+- `GET/POST /dogs/<id>/delete/` – delete dog profile (owner‑only)
 
-### Matching System
+### Matching & Favorites
 
-- `GET /matches/` - List user's matches
-- `POST /matches/<id>/favorite/` - Toggle favorite
+- `GET /matches/` – list user’s matches with pagination
+- `POST /dogs/<id>/favorite/` – toggle favorite via AJAX
+- `GET /favorites/` – view favorites list with pagination
 
 ### User Management
 
-- `GET /profile/` - User profile view
-- `POST /profile/edit/` - Update profile
-- `POST /password/change/` - Change password
-- `POST /account/delete/` - Delete account
+- `GET /profile/` – profile view
+- `GET/POST /profile/edit/` – edit profile
+- `GET/POST /change-password/` – change password
+- `GET/POST /delete-account/` – delete account
 
-### Additional Pages
+### Informational Pages
 
-- `GET /about/` - About page
-- `GET /contacts/` - Contact information
-- `GET /privacy/` - Privacy policy
-- `GET /tips/` - Dog care tips
-- `GET /events/` - Events page
-- `GET /breeds/` - Dog breeds information
+- `GET /about/`, `/contacts/`, `/privacy/`, `/tips/`, `/events/`, `/breeds/`, etc.
+
+---
 
 ## 🧪 Testing
 
-### Running Tests
+Run all tests:
 
 ```bash
-# Run all tests
 python manage.py test
-
-# Run specific app tests
-python manage.py test dogs
-
-# Run with coverage
-pip install coverage
-coverage run --source='.' manage.py test
-coverage report
 ```
 
-### Test Coverage
+The suite includes:
 
-The project includes tests for:
+- `test_db.py` – basic DB operations across apps
+- `test_models.py` – model behavior (including `Dog.__str__`)
+- `test_views.py` – form validation and basic view behavior
+- `test_validations_and_services.py` –
+  - Dog validators (age, per‑owner uniqueness)
+  - Dog image validation via `DogForm`
+  - Permissions in `dog_service`
+  - Favorites and match flows via services
+  - Pagination behavior (favorites) using Django’s `Paginator`
+- `validate_guest_menu.py` – verifies guest menu integration in templates
 
-- Database operations (`test_db.py`)
-- Model functionality (`test_models.py`)
-- View functionality (`test_views.py`)
-- Guest menu implementation (`validate_guest_menu.py`)
+All tests are currently passing under Django 4.2 in the configured venv.
+
+---
+
+## 🐳 Docker & Postgres
+
+The repository includes a Docker setup for running the app with Postgres.
+
+### Build & Run
+
+```bash
+docker compose up --build
+```
+
+This will start:
+
+- `web` – Django app served by gunicorn using `project.settings.production`.
+- `db` – Postgres 16 with database `dogdating`.
+
+Environment in `docker-compose.yml`:
+
+- `DJANGO_SETTINGS_MODULE=project.settings.production`
+- `DATABASE_URL=postgres://dogdating_user:dogdating_password@db:5432/dogdating`
+
+Data is stored in the `postgres_data` Docker volume.
+
+---
 
 ## 🚀 Deployment
 
 ### Production Checklist
 
-1. **Security Settings**
-   - Set `DEBUG = False`
-   - Use strong `SECRET_KEY`
-   - Configure `ALLOWED_HOSTS`
-
+1. **Security settings**
+   - `DEBUG = False` (use `production.py`)
+   - Strong `SECRET_KEY` from `.env`
+   - Correct `ALLOWED_HOSTS`
 2. **Database**
-   - Use PostgreSQL or MySQL
-   - Set up database backups
-   - Configure connection pooling
+   - Use Postgres with `DATABASE_URL`
+   - Set up backups and monitoring
+3. **Static files**
+   - Run `python manage.py collectstatic`
+   - Serve via a web server or CDN
+4. **Media files**
+   - Configure cloud storage (S3, MinIO, etc.) if needed
+5. **Web server**
+   - Use gunicorn/uvicorn behind Nginx or another reverse proxy
+   - Configure HTTPS and HSTS
 
-3. **Static Files**
+Production config is driven by `project.settings.production` and `.env` rather than the old single‑file example.
 
-   ```bash
-   python manage.py collectstatic
-   ```
-
-4. **Media Files**
-   - Configure cloud storage (AWS S3, Google Cloud, etc.)
-   - Set up CDN for images
-
-5. **Web Server**
-   - Use Gunicorn or uWSGI
-   - Configure Nginx as reverse proxy
-   - Set up SSL certificates
-
-### Example Production Settings
-
-```python
-# production.py
-from .settings import *
-
-DEBUG = False
-ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com']
-
-# Security
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_SECONDS = 31536000
-SECURE_REDIRECT_EXEMPT = []
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dogdating',
-        'USER': 'dogdating_user',
-        'PASSWORD': 'secure_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-
-# Static and Media files
-STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-# AWS S3 Configuration
-AWS_ACCESS_KEY_ID = 'your-access-key'
-AWS_SECRET_ACCESS_KEY = 'your-secret-key'
-AWS_STORAGE_BUCKET_NAME = 'dogdating-media'
-AWS_S3_REGION_NAME = 'us-east-1'
-```
-
-## 📚 Documentation
-
-- **[README.md](README.md)** - Project overview and setup guide
-- **[MOBILE_OPTIMIZATION.md](MOBILE_OPTIMIZATION.md)** - Comprehensive mobile adaptation guide ✨ **NEW**
-- **[MOBILE_TESTING_GUIDE.md](MOBILE_TESTING_GUIDE.md)** - How to test mobile features ✨ **NEW**
-- **Inline code documentation** - Docstrings in models, views, and utilities
-- **Django Admin** - Built-in admin interface for data management
+---
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+1. Fork the repository.
+2. Create a feature branch.
+3. Make your changes.
+4. Add tests for new features.
+5. Ensure all tests pass (`python manage.py test`).
+6. Submit a pull request.
 
-### Development Setup
+Coding guidelines:
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new features
-5. Ensure all tests pass
-6. Submit a pull request
+- Follow PEP 8.
+- Use meaningful commit messages.
+- Add docstrings where appropriate.
+- Use Russian for user‑facing content.
 
-### Code Style
-
-- Follow PEP 8 guidelines
-- Write meaningful commit messages
-- Add docstrings to functions and classes
-- Use Russian language for user-facing content
+---
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License – see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+---
 
-### Getting Help
+## 🆘 Support & FAQ
 
-- 📧 Check the Django admin panel for debugging
-- 🐛 Review the error logs in the console
-- 💬 Use Django's built-in debugging tools in development mode
+**Getting Help**
 
-### FAQ
+- Check the Django admin for debugging.
+- Review logs in the console (structured logging enabled).
+- Use Django’s built‑in debug tools in development.
 
-**Q: What language does the application use?**
-A: The application interface is in Russian (LANGUAGE_CODE: ru-ru).
+**FAQ**
 
-**Q: Can users have multiple dogs?**
-A: Yes, each user can create profiles for multiple dogs.
-
-**Q: Is the site mobile-friendly?**
-A: Yes, the application uses responsive design templates.
-
-**Q: How do I populate sample data?**
-A: Use the management command `python manage.py populate_data`.
-
-**Q: How do I set up the menu system?**
-A: Use the management command `python manage.py setup_menus`.
-
-## 🎯 Roadmap
-
-### Current Features
-
-- ✅ User authentication and registration
-- ✅ Dog profile management
-- ✅ Basic matching system
-- ✅ Favorites functionality
-- ✅ Russian language interface
-- ✅ Menu management system
-- ✅ Custom error pages
-- ✅ Management commands for data setup
-
-### Potential Future Enhancements
-
-- [ ] Advanced matching algorithms
-- [ ] Location-based search
-- [ ] Mobile app development
-- [ ] Multi-language support beyond Russian
-- [ ] Social features and events
-- [ ] Advanced messaging system
+- **Q:** What language does the application use?
+  - **A:** Russian (`LANGUAGE_CODE='ru-ru'`).
+- **Q:** Can users have multiple dogs?
+  - **A:** Yes, each user can create multiple dog profiles.
+- **Q:** Is the site mobile‑friendly?
+  - **A:** Yes, it uses responsive templates and mobile‑specific CSS.
+- **Q:** How do I populate sample data?
+  - **A:** Run `python manage.py setup_menus` and `python manage.py populate_data`.
 
 ---
 
 Made with ❤️ for dog lovers everywhere. Woof! 🐕
-
-**Current Status**: Development project with Django 4.2+, Russian language support, and basic dog dating functionality.
