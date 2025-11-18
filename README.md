@@ -6,6 +6,8 @@
 ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
 <img width="2539" height="1245" alt="image" src="https://github.com/user-attachments/assets/b3c7b64b-8ba9-4d0e-8145-a129abd5523a" />
 <img width="2541" height="1274" alt="image" src="https://github.com/user-attachments/assets/a69504af-f6ff-431c-a3b7-d7904b506213" />
+<img width="1123" height="635" alt="image" src="https://github.com/user-attachments/assets/0e84afb2-057b-4750-bc6d-86e253f43e79" />
+<img width="2536" height="895" alt="image" src="https://github.com/user-attachments/assets/4e987062-84a9-4fff-9696-0d22f7dbb8dd" />
 
 DogDating is a modern web application built with Django that helps dog owners find compatible companions for their pets. The platform features user profiles, matching system, favorites, and a responsive design with Russian language support.
 
