@@ -431,6 +431,12 @@ Environment in `docker-compose.yml`:
 
 Data is stored in the `postgres_data` Docker volume.
 
+### Static Files in Docker
+
+Static files (including Django admin CSS/JS) are served using **WhiteNoise** middleware, which allows gunicorn to efficiently serve static files without requiring Nginx. The `collectstatic` command runs automatically when the container starts.
+
+For detailed information about static files configuration and troubleshooting, see [DOCKER_STATIC_FILES.md](DOCKER_STATIC_FILES.md).
+
 ---
 
 ## 🚀 Deployment
@@ -446,11 +452,13 @@ Data is stored in the `postgres_data` Docker volume.
    - Set up backups and monitoring
 3. **Static files**
    - Run `python manage.py collectstatic`
-   - Serve via a web server or CDN
+   - Static files are served by WhiteNoise (no separate web server needed)
+   - Optionally serve via CDN for better performance
 4. **Media files**
    - Configure cloud storage (S3, MinIO, etc.) if needed
 5. **Web server**
-   - Use gunicorn/uvicorn behind Nginx or another reverse proxy
+   - Use gunicorn/uvicorn (with WhiteNoise for static files)
+   - Optionally place behind Nginx or another reverse proxy for SSL termination
    - Configure HTTPS and HSTS
 
 Production config is driven by `project.settings.production` and `.env` rather than the old single‑file example.
