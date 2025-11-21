@@ -10,6 +10,9 @@ services:
       - "8000:8000"
     env_file:
       - .env
+    volumes:
+      # Persist and expose uploaded media files (dog photos) between host and container
+      - ./media:/app/media
     environment:
       # Ensure Django uses Postgres inside Docker
       - DJANGO_SETTINGS_MODULE=project.settings.production

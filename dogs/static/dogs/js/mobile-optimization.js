@@ -173,9 +173,12 @@
             mobileMenuToggle.setAttribute('aria-expanded', isActive);
         });
 
-        // Close menu when a link is clicked
-        const menuLinks = sidebar.querySelectorAll('.menu-link');
-        menuLinks.forEach(link => {
+        // Close menu only when a real navigation link (leaf item) is clicked
+        // Leaf links use the 'header-nav-link' class; top-level spans without URLs
+        // (e.g. "Информация", "Собаки") keep the sidebar open so their submenus
+        // can be expanded and a subsection selected on mobile.
+        const leafMenuLinks = sidebar.querySelectorAll('.menu-link.header-nav-link');
+        leafMenuLinks.forEach(link => {
             link.addEventListener('click', function () {
                 sidebar.classList.remove('active');
                 mobileMenuToggle.setAttribute('aria-expanded', 'false');

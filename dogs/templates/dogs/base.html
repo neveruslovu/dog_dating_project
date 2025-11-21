@@ -803,18 +803,18 @@
                 min-height: calc(100vh - 60px);
             }
 
-            /* Mobile sidebar - full screen overlay */
+            /* Mobile sidebar - full screen overlay above header */
             .sidebar {
                 width: 100%;
                 position: fixed;
                 left: 0;
-                top: 60px;
-                height: calc(100vh - 60px);
-                z-index: 998;
+                top: 0;
+                height: 100vh;
+                z-index: 1200;
                 border-right: none;
                 border-bottom: none;
                 padding: 1rem;
-                max-height: calc(100vh - 60px);
+                max-height: 100vh;
                 overflow-y: auto;
                 -webkit-overflow-scrolling: touch;
                 transform: translateX(-100%);
@@ -1827,8 +1827,8 @@
             <nav class="user-nav">
                 {% if user.is_authenticated %}
                     <span class="welcome-text">Привет, {{ user.username }}!</span>
-                    <a href="{% url 'dogs:dashboard' %}" class="btn-outline-light">Личный кабинет</a>
-                    <a href="{% url 'dogs:logout' %}" class="btn-outline-light">Выйти</a>
+                    <a href="{% url 'dogs:dashboard' %}" class="btn-outline-light menu-link">Личный кабинет</a>
+                    <a href="{% url 'dogs:logout' %}" class="btn-outline-light menu-link">Выйти</a>
                 {% else %}
                     {% comment %}
                     Guest menu dropdown for non-authenticated users
@@ -1971,33 +1971,12 @@
         }
 
         // Mobile menu toggle
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        const sidebar = document.querySelector('.sidebar');
-        
-        if (mobileMenuToggle && sidebar) {
-            mobileMenuToggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                sidebar.classList.toggle('active');
-            });
-
-            // Close menu when clicking outside
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.sidebar') && !e.target.closest('.mobile-menu-toggle')) {
-                    sidebar.classList.remove('active');
-                }
-            });
-
-            // Close menu when clicking a menu item
-            sidebar.querySelectorAll('.menu-link').forEach(link => {
-                link.addEventListener('click', function() {
-                    // Don't close if it's a parent with submenu
-                    if (!this.closest('.menu-item').querySelector('.submenu')) {
-                        sidebar.classList.remove('active');
-                    }
-                });
-            });
-        }
+        // Поведение мобильного меню теперь полностью
+        // реализовано в static-скрипте
+        // `dogs/js/mobile-optimization.js`, чтобы не было
+        // двух обработчиков клика по бургер-кнопке, которые
+        // могли бы открывать и сразу же закрывать сайдбар
+        // за один тап.
 
         // Toast notification system
         function showToast(message, type = 'success') {

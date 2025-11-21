@@ -909,7 +909,7 @@
             {% for dog in featured_dogs %}
             <div class="dog-card">
                 <div class="dog-image">
-                    {% if dog.photo %}
+                    {% if dog.has_photo %}
                         <img src="{{ dog.photo.url }}" alt="{{ dog.name }}">
                     {% else %}
                         <div class="dog-placeholder">🐕</div>

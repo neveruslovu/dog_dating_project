@@ -52,7 +52,10 @@ def main():
     print("=" * 70)
     print()
 
+    # Base path is the `tests` directory when run as `cd tests && python validate_guest_menu.py`
     base_path = Path(__file__).parent
+    # Project root is the parent of `tests`, where the real `dogs/templates/...` live
+    project_root = base_path.parent
 
     # Step 1: Check files exist
     print("STEP 1: Checking Files...")
@@ -61,7 +64,7 @@ def main():
     files_ok = all(
         [
             check_file_exists(
-                base_path
+                project_root
                 / "dogs"
                 / "templates"
                 / "dogs"
@@ -70,7 +73,8 @@ def main():
                 "Guest menu component",
             ),
             check_file_exists(
-                base_path / "dogs" / "templates" / "dogs" / "base.html", "Base template"
+                project_root / "dogs" / "templates" / "dogs" / "base.html",
+                "Base template",
             ),
         ]
     )
@@ -80,7 +84,7 @@ def main():
     print("STEP 2: Checking base.html Modifications...")
     print("-" * 70)
 
-    base_html_path = base_path / "dogs" / "templates" / "dogs" / "base.html"
+    base_html_path = project_root / "dogs" / "templates" / "dogs" / "base.html"
     base_ok = all(
         [
             check_content_in_file(
@@ -117,7 +121,7 @@ def main():
     print("-" * 70)
 
     guest_menu_path = (
-        base_path / "dogs" / "templates" / "dogs" / "components" / "guest_menu.html"
+        project_root / "dogs" / "templates" / "dogs" / "components" / "guest_menu.html"
     )
     guest_ok = all(
         [
@@ -168,9 +172,12 @@ def main():
     else:
         conflicts_ok = False
 
-    # Check menu-link class (authenticated menu) is unchanged
+    # Check that authenticated menu still uses the legacy `menu-link` class
+    # (allowing it to be combined with other classes like `btn-outline-light`)
     if check_content_in_file(
-        base_html_path, 'class="menu-link"', "Authenticated menu links still present"
+        base_html_path,
+        "menu-link",
+        "Authenticated menu links still present",
     ):
         pass
     else:
@@ -208,13 +215,11 @@ def main():
                 base_html_path,
                 "@media (max-width: 768px)",
                 "Tablet breakpoint styles present",
-                is_regex=True,
             ),
             check_content_in_file(
                 base_html_path,
                 "@media (max-width: 480px)",
                 "Mobile breakpoint styles present",
-                is_regex=True,
             ),
         ]
     )

@@ -102,6 +102,26 @@ class Dog(models.Model):
     def __str__(self):
         return f"{self.name} ({self.owner.username})"
 
+    @property
+    def has_photo(self) -> bool:
+        """Return True only if a photo is set and the underlying file exists.
+
+        This helps avoid broken image links when media files were cleaned up or
+        not copied, while still showing real photos when they are present on disk.
+        """
+        if not self.photo:
+            return False
+
+        storage = getattr(self.photo, "storage", None)
+        name = getattr(self.photo, "name", None)
+        if not storage or not name:
+            return False
+
+        try:
+            return storage.exists(name)
+        except Exception:
+            return False
+
 
 class UserProfile(models.Model):
     """Расширенная модель пользователя"""
