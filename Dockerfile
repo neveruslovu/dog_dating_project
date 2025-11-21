@@ -25,4 +25,4 @@ EXPOSE 8000
 # Default command: run gunicorn against production settings
 ENV DJANGO_SETTINGS_MODULE=project.settings.production
 
-CMD ["gunicorn", "project.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn project.wsgi:application --bind 0.0.0.0:8000 --workers 3"]
