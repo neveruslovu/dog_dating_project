@@ -227,13 +227,6 @@
             background: rgba(255,255,255,0.1);
         }
 
-        /* Show mobile menu toggle only for authenticated users with sidebar */
-        {% if user.is_authenticated %}
-            .mobile-menu-toggle {
-                display: flex !important;
-            }
-        {% endif %}
-
         .btn-primary-header {
             background: linear-gradient(45deg, #3b82f6, #2563eb);
             color: white;
