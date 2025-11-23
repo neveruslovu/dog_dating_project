@@ -28,8 +28,8 @@ urlpatterns = [
     path("dogs/<int:pk>/delete/", views.dog_delete, name="dog_delete"),
     # Взаимодействия с собаками
     path("dogs/<int:pk>/favorite/", views.toggle_favorite, name="toggle_favorite"),
-    path("matches/", views.matches_list, name="matches"),
-    path("favorites/", views.favorites_list, name="favorites"),
+    path("matches/", views.matches_list, name="matches_list"),
+    path("favorites/", views.favorites_list, name="favorites_list"),
     # Старые URL (для совместимости - удалить после тестирования)
     # path("register/", views.register_dog, name="register_old"),
     # path("profile/<int:dog_id>/", views.dog_profile, name="profile_old"),

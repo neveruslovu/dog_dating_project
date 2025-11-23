@@ -357,10 +357,12 @@ def delete_account(request):
     )
 
 
-@login_required
 def toggle_favorite(request, pk):
     """Добавление/удаление из избранного (AJAX)"""
     if request.method != "POST":
+        return HttpResponseForbidden()
+
+    if not request.user.is_authenticated:
         return HttpResponseForbidden()
 
     try:

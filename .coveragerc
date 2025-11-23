@@ -1,0 +1,125 @@
+# Coverage.py Configuration for DogDating Project
+# ================================================
+# This file configures coverage.py for detailed code coverage analysis.
+# Works with pytest-cov plugin and can be used standalone.
+
+[run]
+# Source code directories to measure
+source = 
+    dogs
+    menu_app
+    services
+    project
+
+# Files to exclude from coverage
+omit =
+    */migrations/*
+    */tests/*
+    */test_*.py
+    */__pycache__/*
+    */admin.py
+    */apps.py
+    */wsgi.py
+    */asgi.py
+    manage.py
+    */settings/__init__.py
+    */settings/base.py
+    */settings/development.py
+    */settings/production.py
+    */node_modules/*
+    */venv/*
+    */env/*
+    */.venv/*
+
+# Branch coverage (more thorough than line coverage)
+branch = True
+
+# Parallel mode for multiprocessing
+parallel = False
+
+# SQLite database for coverage data
+data_file = .coverage
+
+[report]
+# Minimum coverage percentage required
+fail_under = 80
+
+# Exclude specific lines from coverage using comments
+exclude_lines =
+    # Standard coverage exclusions
+    pragma: no cover
+    pragma: nocover
+    
+    # Defensive programming assertions
+    raise AssertionError
+    raise NotImplementedError
+    raise ValueError("Should not happen")
+    
+    # Type checking blocks
+    if TYPE_CHECKING:
+    if typing.TYPE_CHECKING:
+    @typing.no_type_check
+    
+    # Abstract methods
+    @abstract
+    @abstractmethod
+    @abc.abstractmethod
+    
+    # Debugging and repr methods
+    def __repr__
+    def __str__
+    if self\.debug:
+    if settings\.DEBUG:
+    
+    # Main entry points
+    if __name__ == .__main__.:
+    
+    # Pass statements for abstract classes
+    ^\s*pass\s*$
+    ^\s*\.\.\.\s*$
+    
+    # Ellipsis for stubs
+    \.\.\.
+    
+    # Safety checks
+    except ImportError:
+    except ModuleNotFoundError:
+
+# Show missing line numbers in report
+show_missing = True
+
+# Skip files with 100% coverage in summary
+skip_covered = False
+
+# Skip empty files
+skip_empty = True
+
+# Sort report by percentage covered
+#sort = Cover
+
+# Precision for coverage percentage
+precision = 2
+
+# Ignore errors in source
+ignore_errors = False
+
+[html]
+# HTML report output directory
+directory = htmlcov
+
+# Title for HTML report
+title = DogDating Test Coverage Report
+
+# Show contexts in HTML report (requires --context flag)
+show_contexts = False
+
+[xml]
+# XML report output file (for CI/CD)
+output = coverage.xml
+
+[json]
+# JSON report output file
+output = coverage.json
+# Pretty print JSON
+pretty_print = True
+show_contexts = False

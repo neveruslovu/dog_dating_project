@@ -4,9 +4,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('dogs.urls')),
+    path("admin/", admin.site.urls),
+    path("", include("dogs.urls")),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Custom error handlers
+handler404 = "dogs.views.handler404"
+handler500 = "dogs.views.handler500"
