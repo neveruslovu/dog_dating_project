@@ -11,67 +11,92 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('dogs', '0001_initial'),
+        ("dogs", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name='favorite',
+            name="favorite",
             unique_together=set(),
         ),
         migrations.AlterUniqueTogether(
-            name='match',
+            name="match",
             unique_together=set(),
         ),
         migrations.AlterField(
-            model_name='dog',
-            name='age',
-            field=models.PositiveIntegerField(validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(20)], verbose_name='Возраст (в годах)'),
+            model_name="dog",
+            name="age",
+            field=models.PositiveIntegerField(
+                validators=[
+                    django.core.validators.MinValueValidator(0),
+                    django.core.validators.MaxValueValidator(20),
+                ],
+                verbose_name="Возраст (в годах)",
+            ),
         ),
         migrations.AlterField(
-            model_name='dog',
-            name='photo',
-            field=models.ImageField(blank=True, null=True, upload_to='dogs/', validators=[dogs.models.validate_dog_image], verbose_name='Фото'),
+            model_name="dog",
+            name="photo",
+            field=models.ImageField(
+                blank=True,
+                null=True,
+                upload_to="dogs/",
+                validators=[dogs.models.validate_dog_image],
+                verbose_name="Фото",
+            ),
         ),
         migrations.AlterField(
-            model_name='favorite',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='favorite_dogs', to=settings.AUTH_USER_MODEL, verbose_name='Пользователь'),
+            model_name="favorite",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="favorite_dogs",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Пользователь",
+            ),
         ),
         migrations.AddIndex(
-            model_name='favorite',
-            index=models.Index(fields=['user'], name='idx_favorite_user'),
+            model_name="favorite",
+            index=models.Index(fields=["user"], name="idx_favorite_user"),
         ),
         migrations.AddIndex(
-            model_name='favorite',
-            index=models.Index(fields=['dog'], name='idx_favorite_dog'),
+            model_name="favorite",
+            index=models.Index(fields=["dog"], name="idx_favorite_dog"),
         ),
         migrations.AddIndex(
-            model_name='favorite',
-            index=models.Index(fields=['user', 'dog'], name='idx_favorite_user_dog'),
+            model_name="favorite",
+            index=models.Index(fields=["user", "dog"], name="idx_favorite_user_dog"),
         ),
         migrations.AddIndex(
-            model_name='match',
-            index=models.Index(fields=['dog_from'], name='idx_match_dog_from'),
+            model_name="match",
+            index=models.Index(fields=["dog_from"], name="idx_match_dog_from"),
         ),
         migrations.AddIndex(
-            model_name='match',
-            index=models.Index(fields=['dog_to'], name='idx_match_dog_to'),
+            model_name="match",
+            index=models.Index(fields=["dog_to"], name="idx_match_dog_to"),
         ),
         migrations.AddIndex(
-            model_name='match',
-            index=models.Index(fields=['dog_from', 'dog_to'], name='idx_match_dog_from_dog_to'),
+            model_name="match",
+            index=models.Index(
+                fields=["dog_from", "dog_to"], name="idx_match_dog_from_dog_to"
+            ),
         ),
         migrations.AddConstraint(
-            model_name='dog',
-            constraint=models.UniqueConstraint(fields=('owner', 'name'), name='unique_dog_name_per_owner'),
+            model_name="dog",
+            constraint=models.UniqueConstraint(
+                fields=("owner", "name"), name="unique_dog_name_per_owner"
+            ),
         ),
         migrations.AddConstraint(
-            model_name='favorite',
-            constraint=models.UniqueConstraint(fields=('user', 'dog'), name='unique_favorite_per_user_and_dog'),
+            model_name="favorite",
+            constraint=models.UniqueConstraint(
+                fields=("user", "dog"), name="unique_favorite_per_user_and_dog"
+            ),
         ),
         migrations.AddConstraint(
-            model_name='match',
-            constraint=models.UniqueConstraint(fields=('dog_from', 'dog_to'), name='unique_match_dog_from_dog_to'),
+            model_name="match",
+            constraint=models.UniqueConstraint(
+                fields=("dog_from", "dog_to"), name="unique_match_dog_from_dog_to"
+            ),
         ),
     ]

@@ -206,7 +206,8 @@ class TestDeleteAccountView:
         username = user.username
 
         response = authenticated_client.post(
-            reverse("dogs:delete_account"), {"password": "testpass123", "confirm_deletion": True}
+            reverse("dogs:delete_account"),
+            {"password": "testpass123", "confirm_deletion": True},
         )
 
         # Should redirect after deletion (302) or render success page (200)
@@ -219,7 +220,8 @@ class TestDeleteAccountView:
         user_id = user.id
 
         response = authenticated_client.post(
-            reverse("dogs:delete_account"), {"password": "wrongpassword", "confirm_deletion": True}
+            reverse("dogs:delete_account"),
+            {"password": "wrongpassword", "confirm_deletion": True},
         )
 
         # Should either redirect with error (302) or re-render form (200)

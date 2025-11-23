@@ -183,7 +183,11 @@ class TestProfileManagementWorkflow:
             },
         )
         print(f"Password change status: {response.status_code}")
-        if response.status_code != 302 and hasattr(response, "context") and response.context:
+        if (
+            response.status_code != 302
+            and hasattr(response, "context")
+            and response.context
+        ):
             if "form" in response.context:
                 print(f"Form errors: {response.context['form'].errors}")
         assert response.status_code == 302

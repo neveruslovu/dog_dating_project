@@ -15,91 +15,310 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Dog',
+            name="Dog",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Кличка')),
-                ('breed', models.CharField(max_length=100, verbose_name='Порода')),
-                ('age', models.PositiveIntegerField(verbose_name='Возраст (в годах)')),
-                ('gender', models.CharField(choices=[('M', 'Мальчик'), ('F', 'Девочка')], max_length=1, verbose_name='Пол')),
-                ('size', models.CharField(choices=[('S', 'Маленькая'), ('M', 'Средняя'), ('L', 'Большая')], max_length=1, verbose_name='Размер')),
-                ('temperament', models.CharField(help_text='Например: дружелюбный, энергичный, спокойный', max_length=100, verbose_name='Характер')),
-                ('looking_for', models.CharField(choices=[('playmate', 'Друга для игр'), ('companion', 'Компаньона'), ('mate', 'Партнера для жизни'), ('friendship', 'Дружбы')], help_text='Цель знакомства', max_length=20, verbose_name='Ищет')),
-                ('description', models.TextField(help_text='Расскажите о вашей собаке: привычки, любимые занятия и т.д.', verbose_name='Описание')),
-                ('photo', models.ImageField(blank=True, null=True, upload_to='dogs/', verbose_name='Фото')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата регистрации')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Дата обновления')),
-                ('is_active', models.BooleanField(default=True, verbose_name='Активный профиль')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='dogs', to=settings.AUTH_USER_MODEL, verbose_name='Владелец')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="Кличка")),
+                ("breed", models.CharField(max_length=100, verbose_name="Порода")),
+                ("age", models.PositiveIntegerField(verbose_name="Возраст (в годах)")),
+                (
+                    "gender",
+                    models.CharField(
+                        choices=[("M", "Мальчик"), ("F", "Девочка")],
+                        max_length=1,
+                        verbose_name="Пол",
+                    ),
+                ),
+                (
+                    "size",
+                    models.CharField(
+                        choices=[
+                            ("S", "Маленькая"),
+                            ("M", "Средняя"),
+                            ("L", "Большая"),
+                        ],
+                        max_length=1,
+                        verbose_name="Размер",
+                    ),
+                ),
+                (
+                    "temperament",
+                    models.CharField(
+                        help_text="Например: дружелюбный, энергичный, спокойный",
+                        max_length=100,
+                        verbose_name="Характер",
+                    ),
+                ),
+                (
+                    "looking_for",
+                    models.CharField(
+                        choices=[
+                            ("playmate", "Друга для игр"),
+                            ("companion", "Компаньона"),
+                            ("mate", "Партнера для жизни"),
+                            ("friendship", "Дружбы"),
+                        ],
+                        help_text="Цель знакомства",
+                        max_length=20,
+                        verbose_name="Ищет",
+                    ),
+                ),
+                (
+                    "description",
+                    models.TextField(
+                        help_text="Расскажите о вашей собаке: привычки, любимые занятия и т.д.",
+                        verbose_name="Описание",
+                    ),
+                ),
+                (
+                    "photo",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="dogs/", verbose_name="Фото"
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата регистрации"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Дата обновления"),
+                ),
+                (
+                    "is_active",
+                    models.BooleanField(default=True, verbose_name="Активный профиль"),
+                ),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="dogs",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Владелец",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Собака',
-                'verbose_name_plural': 'Собаки',
-                'ordering': ['-created_at'],
+                "verbose_name": "Собака",
+                "verbose_name_plural": "Собаки",
+                "ordering": ["-created_at"],
             },
         ),
         migrations.CreateModel(
-            name='UserProfile',
+            name="UserProfile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('bio', models.TextField(blank=True, verbose_name='О себе')),
-                ('location', models.CharField(blank=True, max_length=100, verbose_name='Город')),
-                ('phone', models.CharField(blank=True, max_length=20, verbose_name='Телефон')),
-                ('avatar', models.ImageField(blank=True, null=True, upload_to='avatars/', verbose_name='Аватар')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата регистрации')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Дата обновления')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile', to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("bio", models.TextField(blank=True, verbose_name="О себе")),
+                (
+                    "location",
+                    models.CharField(blank=True, max_length=100, verbose_name="Город"),
+                ),
+                (
+                    "phone",
+                    models.CharField(blank=True, max_length=20, verbose_name="Телефон"),
+                ),
+                (
+                    "avatar",
+                    models.ImageField(
+                        blank=True,
+                        null=True,
+                        upload_to="avatars/",
+                        verbose_name="Аватар",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата регистрации"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Дата обновления"),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="profile",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Пользователь",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Профиль пользователя',
-                'verbose_name_plural': 'Профили пользователей',
+                "verbose_name": "Профиль пользователя",
+                "verbose_name_plural": "Профили пользователей",
             },
         ),
         migrations.CreateModel(
-            name='Message',
+            name="Message",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('subject', models.CharField(max_length=200, verbose_name='Тема')),
-                ('content', models.TextField(verbose_name='Содержание')),
-                ('is_read', models.BooleanField(default=False, verbose_name='Прочитано')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата отправки')),
-                ('receiver', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages_received', to=settings.AUTH_USER_MODEL, verbose_name='Получатель')),
-                ('sender', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='messages_sent', to=settings.AUTH_USER_MODEL, verbose_name='Отправитель')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("subject", models.CharField(max_length=200, verbose_name="Тема")),
+                ("content", models.TextField(verbose_name="Содержание")),
+                (
+                    "is_read",
+                    models.BooleanField(default=False, verbose_name="Прочитано"),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата отправки"
+                    ),
+                ),
+                (
+                    "receiver",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="messages_received",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Получатель",
+                    ),
+                ),
+                (
+                    "sender",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="messages_sent",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Отправитель",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Сообщение',
-                'verbose_name_plural': 'Сообщения',
-                'ordering': ['-created_at'],
+                "verbose_name": "Сообщение",
+                "verbose_name_plural": "Сообщения",
+                "ordering": ["-created_at"],
             },
         ),
         migrations.CreateModel(
-            name='Match',
+            name="Match",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('pending', 'Ожидает'), ('accepted', 'Принят'), ('declined', 'Отклонен')], default='pending', max_length=10, verbose_name='Статус')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Дата обновления')),
-                ('dog_from', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='matches_sent', to='dogs.dog', verbose_name='Собака-инициатор')),
-                ('dog_to', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='matches_received', to='dogs.dog', verbose_name='Собака-цель')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("pending", "Ожидает"),
+                            ("accepted", "Принят"),
+                            ("declined", "Отклонен"),
+                        ],
+                        default="pending",
+                        max_length=10,
+                        verbose_name="Статус",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата создания"
+                    ),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="Дата обновления"),
+                ),
+                (
+                    "dog_from",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="matches_sent",
+                        to="dogs.dog",
+                        verbose_name="Собака-инициатор",
+                    ),
+                ),
+                (
+                    "dog_to",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="matches_received",
+                        to="dogs.dog",
+                        verbose_name="Собака-цель",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Мэтч',
-                'verbose_name_plural': 'Мэтчи',
-                'unique_together': {('dog_from', 'dog_to')},
+                "verbose_name": "Мэтч",
+                "verbose_name_plural": "Мэтчи",
+                "unique_together": {("dog_from", "dog_to")},
             },
         ),
         migrations.CreateModel(
-            name='Favorite',
+            name="Favorite",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')),
-                ('dog', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='favorited_by', to='dogs.dog', verbose_name='Собака')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='favorites', to=settings.AUTH_USER_MODEL, verbose_name='Пользователь')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Дата добавления"
+                    ),
+                ),
+                (
+                    "dog",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="favorited_by",
+                        to="dogs.dog",
+                        verbose_name="Собака",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="favorites",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Пользователь",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Избранное',
-                'verbose_name_plural': 'Избранное',
-                'unique_together': {('user', 'dog')},
+                "verbose_name": "Избранное",
+                "verbose_name_plural": "Избранное",
+                "unique_together": {("user", "dog")},
             },
         ),
     ]
